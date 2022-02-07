@@ -10,11 +10,14 @@
         private array $routes = [];
         private string $p404;
 
+        public static Router $router;
+
         public function __construct($request, $response, $baseUrl = '') {
             $this->request = $request;
             $this->response = $response;
             $this->baseUrl = $baseUrl;
             $this->p404 = "404";
+            self::$router = $this;
         }
 
         public function get($path, $callback) {
