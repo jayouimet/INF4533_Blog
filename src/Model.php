@@ -1,6 +1,7 @@
 <?php
 
-abstract class Rules {
+abstract class Rules
+{
     const REQUIRED = 0;
     const EMAIL = 1;
     const MATCH = 2;
@@ -12,7 +13,8 @@ abstract class Rules {
 
 abstract class Model
 {
-    public function loadData($data){
+    public function loadData($data)
+    {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
@@ -26,35 +28,35 @@ abstract class Model
 
     public function validate()
     {
-        foreach($this->rules() as $attribute => $rules){
+        foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
-            foreach($rules as $rule){
+            foreach ($rules as $rule) {
                 $ruleName = $rule;
 
-                if(!is_int($ruleName)){
+                if (!is_int($ruleName)) {
                     $ruleName = $rule[0];
                 }
-                
+
                 // TODO HOTBREAD : U KNOW
-                if($ruleName === Rules::REQUIRED && strlen($value) == 0){
+                if ($ruleName === Rules::REQUIRED && strlen($value) == 0) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
-                if($ruleName === Rules::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)){
+                if ($ruleName === Rules::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
-                if($ruleName === Rules::MIN && strlen($value) < $rule['min']){
+                if ($ruleName === Rules::MIN && strlen($value) < $rule['min']) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
-                if($ruleName === Rules::MAX && strlen($value) > $rule['max']){
+                if ($ruleName === Rules::MAX && strlen($value) > $rule['max']) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
-                if($ruleName === Rules::MIN_VAL && $value < $rule['min']){
+                if ($ruleName === Rules::MIN_VAL && $value < $rule['min']) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
-                if($ruleName === Rules::MAX_VAL && $value > $rule['max']){
+                if ($ruleName === Rules::MAX_VAL && $value > $rule['max']) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
-                if($ruleName === Rules::MATCH && $value !== $this->{$rule['match']}){
+                if ($ruleName === Rules::MATCH && $value !== $this->{$rule['match']}) {
                     $this->addError($attribute, $ruleName, $rule);
                 }
             }
@@ -63,17 +65,21 @@ abstract class Model
         return empty($this->errors);
     }
 
-    public function addError(string $attribute, string $rule, $params = []){
+    public function addError(string $attribute, string $rule, $params = [])
+    {
         $message = $this->errorMessages()[$rule] ?? '';
 
-        foreach($params as $key => $value){
-            $message = str_replace(sprintf('{%s}',$key),$value,$message);
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                $message = str_replace(sprintf('{%s}', $key), $value, $message);
+            }
         }
 
         $this->errors[$attribute][] = $message;
     }
 
-    private function errorMessages(){
+    private function errorMessages()
+    {
         return [
             Rules::EMAIL => 'This field must be a valid email address',
             Rules::MIN => 'Min length of this field must be {min}',
@@ -85,7 +91,8 @@ abstract class Model
         ];
     }
 
-    public function getFirstError(string $attribute){
+    public function getFirstError(string $attribute)
+    {
         return $this->errors[$attribute][0] ?? false;
     }
 }
