@@ -21,6 +21,10 @@
                 $appliedMig = iterator_to_array($this->getAppliedMigrations());
                 $mig = array_diff($mig, $appliedMig);
             }
+            if ($direction === 'down') {
+                $appliedMig = iterator_to_array($this->getAppliedMigrations());
+                $mig = array_intersect($mig, $appliedMig);
+            }
 
             $this->executeMigrations($mig, $direction);
         }
