@@ -1,5 +1,5 @@
 <?php
-    require_once 'MigrationManager.php';
+    require_once dirname(__FILE__) . '/MigrationManager.php';
 
     class Database {
         private $servername;
@@ -8,8 +8,6 @@
         private $databasename;
 
         private $conn;
-
-        private MigrationManager $migrationManager;
 
         public function __construct($config = []) {
             if (isset($config['servername']))
@@ -20,8 +18,6 @@
                 $this->password = $config['password'];
             if (isset($config['databasename']))
                 $this->databasename = $config['databasename'];
-
-            $this->migrationManager = new MigrationManager();
         }
 
         public function connect() {
@@ -39,10 +35,6 @@
 
         public function getConnection() {
             return $this->conn;
-        }
-
-        public function migrate() {
-            $this->migrationManager->applyUpMigrations();
         }
     }
 ?>

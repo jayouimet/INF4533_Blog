@@ -31,7 +31,5 @@
 
     $app->router->post('/register', [UserController::class, 'postRegister']);
 
-    $app->router->get('/test', [TestController::class, 'getTest']);
-
     $app->run();
 ?>

@@ -34,9 +34,5 @@
         public function run() {
             echo $this->router->resolve();
         }
-
-        public function migrate() {
-            self::$db->migrate();
-        }
     }
 ?>

@@ -1,28 +1,32 @@
 <?php
-    require_once dirname(__FILE__) . "/../Application.php";
+    require_once dirname(__FILE__) . "/Database.php";
 
     class MigrationManager {
-        public function applyUpMigrations() {
-            $this->createMigrationsTable();
-            $this->migrate('up');
+        private $db;
+
+        public function __construct($config = []) {
+            $this->db = new Database($config);
+            $this->db->connect();
         }
 
-        public function applyDownMigrations() {
+        public function applyMigrations($direction) {
             $this->createMigrationsTable();
-            $this->migrate('down');
+            $this->migrate($direction);
         }
 
         private function migrate($direction) {
-            $allMig = iterator_to_array($this->getMigrations());
-            $appliedMig = iterator_to_array($this->getAppliedMigrations());
+            $mig = iterator_to_array($this->getMigrations($direction));
 
-            $toApplyMig = array_diff($allMig, $appliedMig);
+            if ($direction === 'up') {
+                $appliedMig = iterator_to_array($this->getAppliedMigrations());
+                $mig = array_diff($mig, $appliedMig);
+            }
 
-            $this->executeMigrations($toApplyMig, $direction);
+            $this->executeMigrations($mig, $direction);
         }
 
-        private function getMigrations() {
-            foreach (scandir(Application::$ROOT_DIR . "/src/database/migrations", SCANDIR_SORT_ASCENDING) as $dir) {
+        private function getMigrations($direction) {
+            foreach (scandir(dirname(__FILE__) . "/migrations", $direction === 'up' ? SCANDIR_SORT_ASCENDING : SCANDIR_SORT_DESCENDING) as $dir) {
                 if ($dir !== '.' && $dir !== '..') {
                     yield strtok($dir, '_');
                 }
@@ -30,7 +34,7 @@
         }
 
         private function createMigrationsTable() {
-            $conn = Application::$db->getConnection();
+            $conn = $this->db->getConnection();
 
             $query = "
                 CREATE TABLE IF NOT EXISTS migrations (
@@ -49,7 +53,7 @@
         }
 
         private function getAppliedMigrations() {
-            $conn = Application::$db->getConnection();
+            $conn = $this->db->getConnection();
 
             $query = "
                 SELECT migrations.migration FROM migrations;
@@ -69,17 +73,30 @@
 
         private function executeMigrations($toApplyMig, $direction) {
             $path = dirname(__FILE__) . "/migrations/";
-            $conn = Application::$db->getConnection();
+            $conn = $this->db->getConnection();
             
             foreach ($toApplyMig as $mig) {
                 $migFolders = glob($path . $mig . "*");
                 foreach ($migFolders as $folder) {
                     $query = file_get_contents($folder . "/$direction.sql");
-                    if ($result = $conn->query($query)) {
+                    if ($direction === 'up' && $result = $conn->query($query)) {
                         $query = "INSERT INTO migrations (migration) VALUES ('" . $conn->real_escape_string($mig) . "');"; 
 
                         if ($result = $conn->query($query)) {
-                            echo "Database migration status updated to : " . $mig . PHP_EOL;
+                            echo "Database migration status updated to $direction : " . $mig . PHP_EOL;
+                        }
+                        if ($conn->error) {
+                            echo "An error occured trying to update $direction migration : " . $mig . PHP_EOL;
+                            die;
+                        }
+
+                        echo "Migration $direction : " . $mig . " applied." . PHP_EOL;
+                    }
+                    if ($direction === 'down' && $result = $conn->query($query)) {
+                        $query = "DELETE FROM migrations WHERE migration = '" . $conn->real_escape_string($mig) . "';"; 
+
+                        if ($result = $conn->query($query)) {
+                            echo "Database migration status updated to $direction : " . $mig . PHP_EOL;
                         }
                         if ($conn->error) {
                             echo "An error occured trying to update $direction migration : " . $mig . PHP_EOL;
@@ -94,6 +111,8 @@
                     }
                 }
             }
+
+            echo "Migrations up to date.";
         }
     }
 ?>
