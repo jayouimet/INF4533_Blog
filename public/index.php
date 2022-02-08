@@ -3,7 +3,6 @@
     require_once '../controllers/HomeController.php';
     require_once '../controllers/ContactController.php';
     require_once '../controllers/UserController.php';
-    require_once '../controllers/TestController.php';
     
     $ini = parse_ini_file('../config.ini');
 
@@ -30,6 +29,8 @@
     $app->router->get('/register', [UserController::class, 'getRegister']);
 
     $app->router->post('/register', [UserController::class, 'postRegister']);
+
+    $app->router->get('/test', [UserController::class, 'test']);
 
     $app->run();
 ?>
