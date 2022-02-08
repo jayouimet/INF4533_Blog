@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS migrations_test;
+DROP TABLE IF EXISTS `users`;
