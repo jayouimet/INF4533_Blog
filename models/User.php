@@ -25,7 +25,12 @@
 
         public function attributes(): array
         {
-            return ['firstname' => DatabaseTypes::DB_TEXT, 'lastname' => DatabaseTypes::DB_TEXT, 'password' => DatabaseTypes::DB_TEXT, 'age' => DatabaseTypes::DB_INT];
+            return [
+                'firstname' => DatabaseTypes::DB_TEXT, 
+                'lastname' => DatabaseTypes::DB_TEXT, 
+                'password' => DatabaseTypes::DB_TEXT, 
+                'age' => DatabaseTypes::DB_INT
+            ];
         }
 
         public function insert() {

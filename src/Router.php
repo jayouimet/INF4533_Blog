@@ -1,7 +1,7 @@
 <?php
-    require_once 'Application.php';
-    require_once 'Request.php';
-    require_once 'Response.php';
+    require_once dirname(__FILE__) . '/Application.php';
+    require_once dirname(__FILE__) . '/Request.php';
+    require_once dirname(__FILE__) . '/Response.php';
 
     class Router {
         public Request $request;
@@ -51,7 +51,7 @@
                 $callback[0] = new $callback[0]();
             }
 
-            return call_user_func($callback, $this->request);
+            return call_user_func($callback, $this->request, $this->response);
         }
 
         public function renderView($view, $params = []) {

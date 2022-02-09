@@ -11,8 +11,14 @@
     }
 
     abstract class DatabaseModel extends Model {
+        protected int $id;
+
         abstract public static function table(): string;
         abstract public function attributes(): array;
+
+        public function getId() {
+            return $this->id;
+        }
 
         public function insert() {
             $table = $this->table();

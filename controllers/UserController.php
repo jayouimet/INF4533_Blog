@@ -1,11 +1,13 @@
 <?php
-    require_once '../src/Controller.php';
-    require_once '../models/UserModel.php';
+    require_once dirname(__FILE__) . '/../src/Controller.php';
+    require_once dirname(__FILE__) . '/../src/Request.php';
+    require_once dirname(__FILE__) . '/../src/Response.php';
 
-    require_once '../models/User.php';
+    require_once dirname(__FILE__) . '/../models/UserModel.php';
+    require_once dirname(__FILE__) . '/../models/User.php';
 
     class UserController extends Controller {
-        public function getRegister(Request $request) {
+        public function getRegister(Request $request, Response $response) {
             $userModel = new UserModel();
             $params = [
                 'model' => $userModel
@@ -13,13 +15,12 @@
             return $this->render('user', $params);
         }
 
-        public function postRegister(Request $request) {
+        public function postRegister(Request $request, Response $response) {
             $userModel = new UserModel();
             $userModel->loadData($request->getBody());
 
             if($userModel->validate() && $userModel->register()){
-                header("Location: /INF4533_Blog/");
-                die;
+                $response->redirect('/');
             }
 
             $params = [
@@ -28,7 +29,7 @@
             return $this->render('user', $params);
         }
 
-        public function test(Request $request) {
+        public function test(Request $request, Response $response) {
             $user = new User();
             $user->firstname = 'Jeremie';
             $user->lastname = 'Ouimet';

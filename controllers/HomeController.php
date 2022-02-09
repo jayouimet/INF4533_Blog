@@ -1,8 +1,10 @@
 <?php
-    require_once '../src/Controller.php';
+    require_once dirname(__FILE__) . '/../src/Controller.php';
+    require_once dirname(__FILE__) . '/../src/Request.php';
+    require_once dirname(__FILE__) . '/../src/Response.php';
 
     class HomeController extends Controller {
-        public function getHome(Request $request) {
+        public function getHome(Request $request, Response $response) {
             $params = [
                 'name' => "TestName"
             ];
