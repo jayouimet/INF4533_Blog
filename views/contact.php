@@ -1,4 +1,7 @@
 <?php
+  if(isset($_SESSION["test"])) {
+    var_dump($_SESSION["test"]);
+  }
 ?>
 
 <h1>Contact us</h1>

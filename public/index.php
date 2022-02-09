@@ -3,6 +3,8 @@
     require_once '../controllers/HomeController.php';
     require_once '../controllers/ContactController.php';
     require_once '../controllers/UserController.php';
+
+    session_start();
     
     $ini = parse_ini_file('../config.ini');
 

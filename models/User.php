@@ -29,12 +29,17 @@
         }
 
         public function insert() {
+            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
             return parent::insert();
         }
 
         public function register(){
             // new user created
             return true;
+        }
+
+        public function login() {
+            
         }
     }
 ?>
