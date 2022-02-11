@@ -36,33 +36,24 @@ abstract class Model
                 if (!is_int($ruleName)) {
                     $ruleName = $rule[0];
                 }
-
-                // TODO HOTBREAD : U KNOW
-                if ($ruleName === Rules::REQUIRED && strlen($value) == 0) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
-                if ($ruleName === Rules::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
-                if ($ruleName === Rules::MIN && strlen($value) < $rule['min']) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
-                if ($ruleName === Rules::MAX && strlen($value) > $rule['max']) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
-                if ($ruleName === Rules::MIN_VAL && $value < $rule['min']) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
-                if ($ruleName === Rules::MAX_VAL && $value > $rule['max']) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
-                if ($ruleName === Rules::MATCH && $value !== $this->{$rule['match']}) {
-                    $this->addError($attribute, $ruleName, $rule);
-                }
+                $this->checkRules($ruleName, $value, $rule, $attribute);
             }
         }
-
         return empty($this->errors);
+    }
+
+    private function checkRules($ruleName, $value, $rule, $attribute)
+    {
+        if (($ruleName === Rules::REQUIRED && strlen($value) == 0)  ||
+            ($ruleName === Rules::EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) ||
+            ($ruleName === Rules::MIN && strlen($value) < $rule['min']) ||
+            ($ruleName === Rules::MAX && strlen($value) > $rule['max']) ||
+            ($ruleName === Rules::MIN_VAL && $value < $rule['min']) ||
+            ($ruleName === Rules::MAX_VAL && $value > $rule['max']) ||
+            ($ruleName === Rules::MATCH && $value !== $this->{$rule['match']})
+        ) {
+            $this->addError($attribute, $ruleName, $rule);
+        }
     }
 
     public function addError(string $attribute, string $rule, $params = [])

@@ -12,7 +12,7 @@ class UserModel extends Model {
         return [
             'firstname' => [Rules::REQUIRED],
             'lastname' => [Rules::REQUIRED],
-            'age' => [Rules::REQUIRED, [Rules::MIN_VAL, 'min' => 0], [Rules::MAX_VAL, 'max' => 200]],
+            'age' => [Rules::REQUIRED, [Rules::MIN_VAL, 'min' => 1], [Rules::MAX_VAL, 'max' => 200]],
             'password' => [Rules::REQUIRED, [Rules::MIN, 'min' => 8]],
             'passwordConfirm' => [Rules::REQUIRED, [Rules::MATCH, 'match' => 'password']],
         ];
