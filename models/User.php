@@ -23,7 +23,7 @@
             return 'users';
         }
 
-        public function attributes(): array
+        public static function attributes(): array
         {
             return [
                 'firstname' => DatabaseTypes::DB_TEXT, 

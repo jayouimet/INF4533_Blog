@@ -11,16 +11,19 @@
     }
 
     abstract class DatabaseModel extends Model {
-        protected int $id;
+        private ?int $id = null;
 
         abstract public static function table(): string;
-        abstract public function attributes(): array;
+        abstract public static function attributes(): array;
 
         public function getId() {
             return $this->id;
         }
 
         public function insert() {
+            if ($this->id !== null)
+                return false;
+
             $table = $this->table();
             $attributes = $this->attributes();
 
@@ -45,12 +48,81 @@
                 $values[] = $this->{$col};
             }
 
-            var_dump($statement, $query);
-
             $statement->bind_param($typeString, ...$values);
             $statement->execute();
+            $this->id = $statement->insert_id;
 
             return true;
+        }
+
+        public function upsert() {
+            if ($this->id === null || !static::getOne(['id' => $this->id]))
+                return $this->insert();
+            
+            return true;
+        }
+
+        // TODO: Update
+        // TODO: delete
+        // TODO: deleteOne
+
+        public static function get($conditions = null, ?int $limit = null) {
+            $table = static::table();
+            $attributes = static::attributes();
+            $conn = Application::$db->getConnection();
+            $query = "SELECT * FROM $table";
+            $statement = null;
+            if (isset($conditions) && $conditions && sizeof($conditions) > 0) {
+                foreach ($conditions as $key => $value) {
+                    $columns[] = $key;
+                    $values[] = $value;
+                    if ($key !== 'id')
+                        $types[] = $attributes[$key];
+                    else 
+                        $types[] = 'i';
+                }
+
+                $typeString = implode('', $types);
+                
+                $query .= " WHERE " . implode(' = ?,', $columns) . " = ?";
+                if ($limit)
+                    $query .= " LIMIT $limit";
+                $query .= ';';
+                $statement = $conn->prepare($query);
+
+                $statement->bind_param($typeString, ...$values);
+            } else {
+                if ($limit)
+                    $query .= " LIMIT $limit";
+                $query .= ';';
+                $statement = $conn->prepare($query);
+            }
+
+            $statement->execute();
+            $result = $statement->get_result();
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+            
+            $results = array();
+
+            foreach ($rows as $row) {
+                $obj = new static();
+                foreach ($row as $key => $col) {
+                    if (property_exists($obj, $key)) {
+                        $obj->$key = $col;
+                    }
+                }
+                $results[] = $obj;
+            }
+
+            return $results;
+        }
+
+        public static function getOne($conditions = null) {
+            $results = static::get($conditions, 1);
+            if (sizeof($results) > 0) {
+                return $results[0];
+            }
+            return false;
         }
     }
 ?>

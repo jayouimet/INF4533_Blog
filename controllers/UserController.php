@@ -36,7 +36,10 @@
             $user->password = "some''\M'Pwd";
             $user->age = 23;
 
-            $user->insert();
+            $user = User::getOne(['id' => '5']);
+            var_dump($user);
+            $users = User::get([], 5);
+            var_dump($users);
 
             return $this->render('test', []);
         }
