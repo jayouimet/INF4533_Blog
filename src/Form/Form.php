@@ -1,5 +1,5 @@
 <?php
-require_once "Field.php";
+require_once dirname(__FILE__) . "/Field.php";
 
 class Form {
     public static function begin($action,$method){

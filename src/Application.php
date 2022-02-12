@@ -1,8 +1,8 @@
 <?php
-    require_once 'Router.php';
-    require_once 'Request.php';
-    require_once 'Response.php';
-    require_once 'database/Database.php';
+    require_once dirname(__FILE__) . '/Router.php';
+    require_once dirname(__FILE__) . '/Request.php';
+    require_once dirname(__FILE__) . '/Response.php';
+    require_once dirname(__FILE__) . '/database/Database.php';
 
     class Application {
         public static string $ROOT_DIR;

@@ -1,5 +1,5 @@
 <?php
-require_once "../src/Form/Form.php";
+require_once dirname(__FILE__) . '/../src/Form/Form.php';
 
 $form = Form::begin('', 'post');
 ?>
