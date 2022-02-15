@@ -32,8 +32,10 @@
             $types = [];
 
             foreach ($attributes as $key => $value) {
-                $columns[] = $key;
-                $types[] = $value;
+                if (isset($this->{$key})) {
+                    $columns[] = $key;
+                    $types[] = $value;
+                }
             }
 
             $placeholders = array_fill(0, sizeof($columns), '?');
@@ -45,7 +47,8 @@
             $typeString = implode('', $types);
 
             foreach ($columns as  $col) {
-                $values[] = $this->{$col};
+                if (isset($this->{$col}))
+                    $values[] = $this->{$col};
             }
 
             $statement->bind_param($typeString, ...$values);
@@ -60,6 +63,19 @@
                 return $this->insert();
             
             return true;
+        }
+
+        public function delete() {
+            if ($this->id === null || !static::getOne(['id' => $this->id]))
+                return false;
+            
+            $conn = Application::$db->getConnection();
+            $table = static::table();
+            $query = "DELETE FROM $table WHERE id = ?;";
+            $statement = $conn->prepare($query);
+            $statement->bind_param('i', $this->id);
+            $statement->execute();
+            $this->id = null;
         }
 
         // TODO: Update

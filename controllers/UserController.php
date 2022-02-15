@@ -31,15 +31,22 @@
 
         public function test(Request $request, Response $response) {
             $user = new User();
+            $user->username = 'jayouimet';
+            $user->email = 'jayouimet@hotmail.com';
             $user->firstname = 'Jeremie';
             $user->lastname = 'Ouimet';
             $user->password = "some''\M'Pwd";
-            $user->age = 23;
+            $user->date_of_birth = date("Y-m-d");
+            $user->confirmation_code = 'TEST';
 
-            $user = User::getOne(['id' => '5']);
+            $user->insert();
             var_dump($user);
             $users = User::get([], 5);
             var_dump($users);
+            /*$user->delete();
+            var_dump($user);
+            $users = User::get([], 5);
+            var_dump($users);*/
 
             return $this->render('test', []);
         }
