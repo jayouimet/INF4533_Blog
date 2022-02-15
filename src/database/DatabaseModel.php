@@ -79,8 +79,6 @@
         }
 
         // TODO: Update
-        // TODO: delete
-        // TODO: deleteOne
 
         public static function get($conditions = null, ?int $limit = null) {
             $table = static::table();
