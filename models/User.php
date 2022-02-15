@@ -1,5 +1,6 @@
 <?php
     require_once dirname(__FILE__) . "/../src/database/DatabaseModel.php";
+    require_once dirname(__FILE__) . '/Post.php';
 
     class User extends DatabaseModel {
         public string $email = '';
@@ -14,6 +15,16 @@
         public $created_at;
         public $updated_at;
 
+        public function posts() {
+            return Post::get(['user_id' => $this->getId()]);
+        }
+
+        protected static function relations(): array {
+            return [
+                'posts' => DatabaseRelationship::ONE_TO_MANY
+            ];
+        }
+
 
         public function rules(): array {
             return [
@@ -27,12 +38,12 @@
             ];
         }
 
-        public static function table(): string
+        protected static function table(): string
         {
             return 'users';
         }
 
-        public static function attributes(): array
+        protected static function attributes(): array
         {
             return [
                 'username' => DatabaseTypes::DB_TEXT,

@@ -10,11 +10,19 @@
         const DB_BLOB = 'b';
     }
 
+    abstract class DatabaseRelationship
+    {
+        const MANY_TO_ONE = 'MANY_TO_ONE';
+        const ONE_TO_MANY = 'ONE_TO_MANY';
+        const MANY_TO_MANY = 'MANY_TO_MANY';
+    }
+
     abstract class DatabaseModel extends Model {
         private ?int $id = null;
 
-        abstract public static function table(): string;
-        abstract public static function attributes(): array;
+        abstract protected static function table(): string;
+        abstract protected static function attributes(): array;
+        abstract protected static function relations(): array;
 
         public function getId() {
             return $this->id;
