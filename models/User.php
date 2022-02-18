@@ -1,5 +1,7 @@
 <?php
     require_once dirname(__FILE__) . "/../src/database/DatabaseModel.php";
+    require_once dirname(__FILE__) . "/../src/database/DatabaseEnums.php";
+    require_once dirname(__FILE__) . "/../src/database/DatabaseRelation.php";
     require_once dirname(__FILE__) . '/Post.php';
 
     class User extends DatabaseModel {
@@ -15,13 +17,15 @@
         public $created_at;
         public $updated_at;
 
-        public function posts() {
+        public array $posts;
+
+        public function getPosts() {
             return Post::get(['user_id' => $this->getId()]);
         }
 
         protected static function relations(): array {
             return [
-                'posts' => DatabaseRelationship::ONE_TO_MANY
+                new DatabaseRelation("posts", "posts", "user_id", DatabaseRelationship::ONE_TO_MANY),
             ];
         }
 

@@ -1,21 +1,8 @@
 <?php
     include_once dirname(__FILE__) . "/../Model.php";
     include_once dirname(__FILE__) . "/../Application.php";
-
-    abstract class DatabaseTypes
-    {
-        const DB_INT = 'i';
-        const DB_FLOAT = 'd';
-        const DB_TEXT = 's';
-        const DB_BLOB = 'b';
-    }
-
-    abstract class DatabaseRelationship
-    {
-        const MANY_TO_ONE = 'MANY_TO_ONE';
-        const ONE_TO_MANY = 'ONE_TO_MANY';
-        const MANY_TO_MANY = 'MANY_TO_MANY';
-    }
+    include_once dirname(__FILE__) . "/DatabaseEnums.php";
+    require_once dirname(__FILE__) . "/DatabaseRelation.php";
 
     abstract class DatabaseModel extends Model {
         private ?int $id = null;
@@ -26,6 +13,10 @@
 
         public function getId() {
             return $this->id;
+        }
+
+        protected function setId($id) {
+            $this->id = $id;
         }
 
         public function insert() {
@@ -61,15 +52,34 @@
 
             $statement->bind_param($typeString, ...$values);
             $statement->execute();
+
             $this->id = $statement->insert_id;
 
+            $this->insertArrayChilds();
+
             return true;
+        }
+
+        private function insertArrayChilds() {
+            $relations = static::relations();
+            foreach ($relations as $relation) {
+                if ($relation->relationship === DatabaseRelationship::ONE_TO_MANY) {
+                    $attrName = $relation->attrName;
+                    $childs = $this->$attrName;
+                    if (isset($childs) && sizeof($childs) > 0){
+                        foreach ($childs as $child) {
+                            $fkAttr = $relation->fkAttr;
+                            $child->$fkAttr = $this->id;
+                            $child->upsert();
+                        }
+                    }
+                }
+            }
         }
 
         public function upsert() {
             if ($this->id === null || !static::getOne(['id' => $this->id]))
                 return $this->insert();
-            
             return true;
         }
 

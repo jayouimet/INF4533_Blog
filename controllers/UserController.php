@@ -39,28 +39,24 @@
             $user->password = "some''\M'Pwd";
             $user->date_of_birth = date("Y-m-d");
             $user->confirmation_code = 'TEST';
-            $user->insert();
-            var_dump($user);
 
             $post1 = new Post();
             $post1->title = 'Some nice title';
             $post1->body = 'Some nice body';
-            $post1->user_id = $user->getId();
-            $post1->insert();
 
             $post2 = new Post();
             $post2->title = 'Some nice title 2';
-            $post2->user_id = $user->getId();
-            $post2->insert();
 
-            $users = User::get([], 5);
-            var_dump($users);
-            $posts = Post::get(['user_id' => $user->getId()], 5);
-            var_dump($posts);
+            $user->posts[] = $post1;
+            $user->posts[] = $post2;
 
-            var_dump($user->posts());
-            var_dump($post1->user());
-            var_dump($post2->user());
+            $user->insert();
+
+            $dbUser = User::getOne(['id' => 3]);
+
+            var_dump($dbUser);
+            var_dump($dbUser->getPosts());
+
             /*$user->delete();
             var_dump($user);
             $users = User::get([], 5);
