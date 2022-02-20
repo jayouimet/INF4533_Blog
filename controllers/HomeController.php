@@ -4,6 +4,13 @@
     require_once dirname(__FILE__) . '/../src/Response.php';
 
     class HomeController extends Controller {
+        /**
+         * Function called when trying to use the method Get on the home page
+         *
+         * @param Request $request
+         * @param Response $response
+         * @return void
+         */
         public function getHome(Request $request, Response $response) {
             $params = [
                 'name' => "TestName"

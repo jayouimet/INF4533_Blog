@@ -7,15 +7,44 @@
     abstract class DatabaseModel extends Model {
         private ?int $id = null;
 
+        /**
+         * Get the table name of the model in the DataBase
+         *
+         * @return string Table name
+         */
         abstract protected static function table(): string;
+
+        /**
+         * Get all attributes of this table
+         *
+         * @return array Array of all the attributes
+         */
         abstract protected static function attributes(): array;
+        
+        /**
+         * Get all relations of this table in the database
+         *
+         * @return array Array of table that has relations to this table
+         */
         abstract protected static function relations(): array;
 
-        public function getId() {
+        /**
+         * Get ID
+         *
+         * @return int ID
+         */
+        public function getId() : int {
             return $this->id;
         }
 
-        protected function setId($id) {
+        /**
+         *  Set the ID.
+         *  Protected function.
+         * 
+         * @param int $id
+         * @return void
+         */
+        protected function setId(int $id) {
             $this->id = $id;
         }
 

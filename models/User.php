@@ -5,6 +5,7 @@
     require_once dirname(__FILE__) . '/Post.php';
 
     class User extends DatabaseModel {
+        /* Database attributes for User */
         public string $email = '';
         public string $username = '';
         public string $firstname = '';
@@ -19,6 +20,7 @@
 
         public array $posts;
 
+        /* Get all the post from this user */
         public function getPosts() {
             return Post::get(['user_id' => $this->getId()]);
         }

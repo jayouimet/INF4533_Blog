@@ -3,16 +3,20 @@
     require_once dirname(__FILE__) . '/User.php';
 
     class Post extends DatabaseModel {
+        /* Database attributes for the table posts */
         public string $title = '';
         public string $body = '';
         public int $likes = 0;
         public ?int $user_id = null;
 
-        public function user() {
+        /**
+         * Get the author of the post
+         *
+         * @return User The author
+         */
+        public function user() : User {
             return User::getOne(['id' => $this->user_id]);
         }
-
-        
 
         protected static function relations(): array {
             return [
