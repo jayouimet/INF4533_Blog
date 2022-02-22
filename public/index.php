@@ -49,5 +49,9 @@
 
     $app->router->get('/test', [UserController::class, 'test']);
 
+    $app->router->get('/migrate_up', [DatabaseController::class, 'getUp']);
+    
+    $app->router->get('/migrate_down', [DatabaseController::class, 'getdown']);
+
     $app->run();
 ?>
