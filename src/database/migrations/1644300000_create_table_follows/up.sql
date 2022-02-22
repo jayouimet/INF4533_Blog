@@ -1,5 +1,7 @@
 CREATE TABLE IF NOT EXISTS `follows` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int NOT NULL,
+    `user_followed_id` int NOT NULL,
     `created_at` datetime NOT NULL DEFAULT NOW(),
     `updated_at` datetime NOT NULL DEFAULT NOW() ON UPDATE NOW(),
     PRIMARY KEY (`id`),
