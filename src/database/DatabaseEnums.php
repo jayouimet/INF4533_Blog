@@ -1,4 +1,7 @@
 <?php
+    /**
+     * To define all types of field in the database
+     */
     abstract class DatabaseTypes
     {
         const DB_INT = 'i';
@@ -7,6 +10,9 @@
         const DB_BLOB = 'b';
     }
 
+    /**
+     * To define all relationship between fields in the database.
+     */
     abstract class DatabaseRelationship
     {
         const MANY_TO_ONE = 'MANY_TO_ONE';

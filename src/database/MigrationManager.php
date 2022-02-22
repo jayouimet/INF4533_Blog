@@ -2,6 +2,9 @@
     require_once dirname(__FILE__) . "/Database.php";
 
     class MigrationManager {
+        /**
+         * The connection to the database.
+         */
         private $db;
 
         public function __construct($config = []) {
