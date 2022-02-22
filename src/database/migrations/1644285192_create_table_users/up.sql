@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT NOW(),
   `updated_at` datetime NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  `profile_picture` varchar(255),
-  `status_message` varchar(255),
+  `profile_picture` text,
+  `status_message` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY unique_email(email(255))
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
