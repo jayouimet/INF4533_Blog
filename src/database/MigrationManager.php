@@ -23,12 +23,6 @@
             $this->migrate($direction);
         }
 
-        /**
-         * Undocumented function
-         *
-         * @param [type] $direction
-         * @return void
-         */
         private function migrate($direction) {
             $mig = iterator_to_array($this->getMigrations($direction));
 
