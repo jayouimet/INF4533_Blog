@@ -6,7 +6,6 @@
         /* Database attributes for the table posts */
         public string $title = '';
         public string $body = '';
-        public int $likes = 0;
         public ?int $user_id = null;
 
         public User $user;
@@ -15,14 +14,14 @@
             return User::getOne(['id' => $this->user_id]);
         }
 
-        public function fetch() {
+        /*public function fetch() {
             if (!isset($this->user) || $this->user->getId() !== 0)
                 $this->user = User::getOne(['id' => $this->user_id]);
-        }
+        }*/
 
         protected static function relations(): array {
             return [
-                new DatabaseRelation("user", "users", "user_id", DatabaseRelationship::MANY_TO_ONE),
+                new DatabaseRelation("user", User::class, "user_id", DatabaseRelationship::MANY_TO_ONE),
             ];
         }
 

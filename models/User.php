@@ -17,20 +17,18 @@
         public string $confirmation_code;
         public $created_at;
         public $updated_at;
+        public ?string $profile_picture = '';
+        public ?string $status_message = '';
 
         public array $posts;
 
         /* Get all the post from this user */
-        public function fetch() {
+        /*public function fetch() {
             if (isset($posts))
                 $this->posts = array_merge(array_filter($this->posts, "newElem"), Post::get(['user_id' => $this->getId()]));
             else 
                 $this->posts =  Post::get(['user_id' => $this->getId()]);
-        }
-
-        public function newElem($element) {
-            return $element->getId() === 0;
-        }
+        }*/
 
         protected static function relations(): array {
             // For a relation, we create a DatabaseRelation object and give it values for:
@@ -39,7 +37,7 @@
             // The foreign key name
             // The type of relationship
             return [
-                new DatabaseRelation("posts", "posts", "user_id", DatabaseRelationship::ONE_TO_MANY),
+                new DatabaseRelation("posts", Post::class, "user_id", DatabaseRelationship::ONE_TO_MANY),
             ];
         }
 

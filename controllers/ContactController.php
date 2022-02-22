@@ -3,6 +3,7 @@
     require_once dirname(__FILE__) . '/../src/Request.php';
     require_once dirname(__FILE__) . '/../src/Response.php';
 
+    // Contact Controller
     class ContactController extends Controller {
         public function getContact(Request $request, Response $response) {
             $body = $request->getBody();

@@ -48,6 +48,30 @@
             $this->id = $id;
         }
 
+        public function fetch() {
+            $relations = static::relations();
+            foreach ($relations as $relation) {
+                if ($relation->relationship === DatabaseRelationship::ONE_TO_MANY) {
+                    if (isset($this->{$relation->attrName})) {
+                        $newElems = [];
+                        foreach($this->{$relation->attrName} as $e) {
+                            if ($e->getId() === 0) {
+                                $newElems[] = $e;
+                            }
+                        }
+                        $this->{$relation->attrName} = array_merge($newElems, $relation->class::get([$relation->fkAttr => $this->getId()]));
+                    }
+                    else 
+                        $this->{$relation->attrName} = $relation->class::get([$relation->fkAttr => $this->getId()]);
+                }
+                if ($relation->relationship === DatabaseRelationship::MANY_TO_ONE) {
+                    if (!isset($this->{$relation->attrName}) || $this->{$relation->attrName}->getId() !== 0) {
+                        $this->{$relation->attrName} = $relation->class::getOne(['id' => $this->{$relation->fkAttr}]);
+                    }
+                }
+            }
+        }
+
         public function insert() {
             if ($this->id !== null)
                 return false;

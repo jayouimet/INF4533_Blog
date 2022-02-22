@@ -7,13 +7,13 @@
     class DatabaseRelation {
         public string $attrName;
         public string $fkAttr;
-        public string $tableName;
+        public $class;
         public string $relationship;
 
-        public function __construct($attrName, $tableName, $fkAttr, $relationship) {
+        public function __construct($attrName, $class, $fkAttr, $relationship) {
             $this->attrName = $attrName;
             $this->fkAttr = $fkAttr;
-            $this->tableName = $tableName;
+            $this->class = $class;
             $this->relationship = $relationship;
         }
     }
