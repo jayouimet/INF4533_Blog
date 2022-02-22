@@ -3,6 +3,7 @@
     require_once dirname(__FILE__) . '/../controllers/HomeController.php';
     require_once dirname(__FILE__) . '/../controllers/ContactController.php';
     require_once dirname(__FILE__) . '/../controllers/UserController.php';
+    require_once dirname(__FILE__) . '/../controllers/DatabaseController.php';
 
     session_start();
     
@@ -50,7 +51,7 @@
     $app->router->get('/test', [UserController::class, 'test']);
 
     $app->router->get('/migrate_up', [DatabaseController::class, 'getUp']);
-    
+
     $app->router->get('/migrate_down', [DatabaseController::class, 'getdown']);
 
     $app->run();
