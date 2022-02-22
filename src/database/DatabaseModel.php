@@ -1,31 +1,51 @@
 <?php
     include_once dirname(__FILE__) . "/../Model.php";
     include_once dirname(__FILE__) . "/../Application.php";
-
-    abstract class DatabaseTypes
-    {
-        const DB_INT = 'i';
-        const DB_FLOAT = 'd';
-        const DB_TEXT = 's';
-        const DB_BLOB = 'b';
-    }
-
-    abstract class DatabaseRelationship
-    {
-        const MANY_TO_ONE = 'MANY_TO_ONE';
-        const ONE_TO_MANY = 'ONE_TO_MANY';
-        const MANY_TO_MANY = 'MANY_TO_MANY';
-    }
+    include_once dirname(__FILE__) . "/DatabaseEnums.php";
+    require_once dirname(__FILE__) . "/DatabaseRelation.php";
 
     abstract class DatabaseModel extends Model {
         private ?int $id = null;
 
+        /**
+         * Get the table name of the model in the DataBase
+         *
+         * @return string Table name
+         */
         abstract protected static function table(): string;
+
+        /**
+         * Get all attributes of this table
+         *
+         * @return array Array of all the attributes
+         */
         abstract protected static function attributes(): array;
+        
+        /**
+         * Get all relations of this table in the database
+         *
+         * @return array Array of table that has relations to this table
+         */
         abstract protected static function relations(): array;
 
-        public function getId() {
+        /**
+         * Get ID
+         *
+         * @return int ID
+         */
+        public function getId() : int {
             return $this->id;
+        }
+
+        /**
+         *  Set the ID.
+         *  Protected function.
+         * 
+         * @param int $id
+         * @return void
+         */
+        protected function setId(int $id) {
+            $this->id = $id;
         }
 
         public function insert() {
@@ -39,6 +59,12 @@
             $values = [];
             $types = [];
 
+            $insertedIds = $this->insertObjectChilds();
+
+            foreach ($insertedIds as $key => $value) {
+                $this->{$key} = $value;
+            }
+
             foreach ($attributes as $key => $value) {
                 if (isset($this->{$key})) {
                     $columns[] = $key;
@@ -49,7 +75,7 @@
             $placeholders = array_fill(0, sizeof($columns), '?');
 
             $conn = Application::$db->getConnection();
-
+            
             $query = "INSERT INTO $table (" . implode(',', $columns) . ") VALUES (" . implode(',', $placeholders) . ");";
             $statement = $conn->prepare($query);
             $typeString = implode('', $types);
@@ -61,15 +87,52 @@
 
             $statement->bind_param($typeString, ...$values);
             $statement->execute();
+
             $this->id = $statement->insert_id;
 
+            $this->insertArrayChilds();
+
             return true;
+        }
+
+        private function insertArrayChilds() {
+            $relations = static::relations();
+            foreach ($relations as $relation) {
+                if ($relation->relationship === DatabaseRelationship::ONE_TO_MANY) {
+                    $attrName = $relation->attrName;
+                    $childs = $this->$attrName;
+                    if (isset($childs) && sizeof($childs) > 0){
+                        foreach ($childs as $child) {
+                            $fkAttr = $relation->fkAttr;
+                            $child->$fkAttr = $this->id;
+                            $child->upsert();
+                        }
+                    }
+                }
+            }
+        }
+
+        private function insertObjectChilds() {
+            $relations = static::relations();
+            $ret = [];
+            foreach ($relations as $relation) {
+                if ($relation->relationship === DatabaseRelationship::MANY_TO_ONE) {
+                    $attrName = $relation->attrName;
+                    if (isset($this->$attrName)) {
+                        $child = $this->$attrName;
+                        if (isset($child)) {
+                            $child->upsert();
+                            $ret[$relation->fkAttr] = $child->getId();
+                        }
+                    }
+                }
+            }
+            return $ret;
         }
 
         public function upsert() {
             if ($this->id === null || !static::getOne(['id' => $this->id]))
                 return $this->insert();
-            
             return true;
         }
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Database rules for attributes
+ */
 abstract class Rules
 {
     const REQUIRED = 0;
@@ -11,9 +14,21 @@ abstract class Rules
     const MAX_VAL = 6;
 }
 
+/**
+ * The Model class represents a table in the Database.
+ * You need to extend from this class to define a "Model"
+ */
 abstract class Model
 {
-    public function loadData($data)
+    public array $errors = [];
+    
+    /**
+     * Load the data received from the database
+     *
+     * @param array $data   The array of all attributes and values
+     * @return void
+     */
+    public function loadData(array $data)
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
@@ -22,14 +37,25 @@ abstract class Model
         }
     }
 
+    /**
+     * List of rules for specific attributes
+     *
+     * @return array    The rules
+     */
     abstract public function rules(): array;
 
-    public array $errors = [];
-
-    public function validate()
+    /**
+     * Function that validates the attributes to respect the rules set in the rules() function
+     *
+     * @return bool Return true if there's no error in the attributes of the model
+     */
+    public function validate() : bool
     {
+        /* Get all the rules */
         foreach ($this->rules() as $attribute => $rules) {
+            /* Get the value of the attributes in the model */
             $value = $this->{$attribute};
+            // Check if the attribute value passes the rules
             foreach ($rules as $rule) {
                 $ruleName = $rule;
 
@@ -42,6 +68,12 @@ abstract class Model
         return empty($this->errors);
     }
 
+    /**
+     * Simple function to check whether an attribute is conform to the rules or not.
+     * If there's an error of validation, add the error in the errors array of Model.
+     * 
+     * @return void
+     */
     private function checkRules($ruleName, $value, $rule, $attribute)
     {
         if (($ruleName === Rules::REQUIRED && strlen($value) == 0)  ||
@@ -56,6 +88,14 @@ abstract class Model
         }
     }
 
+    /**
+     * Function to add an error message if an attribute isn't conform to the rules.
+     *
+     * @param string $attribute
+     * @param string $rule
+     * @param array $params
+     * @return void
+     */
     public function addError(string $attribute, string $rule, $params = [])
     {
         $message = $this->errorMessages()[$rule] ?? '';
@@ -69,7 +109,12 @@ abstract class Model
         $this->errors[$attribute][] = $message;
     }
 
-    private function errorMessages()
+    /**
+     * Return an array of error messages for each type of attribute
+     *
+     * @return array
+     */
+    private function errorMessages() : array
     {
         return [
             Rules::EMAIL => 'This field must be a valid email address',
@@ -82,7 +127,13 @@ abstract class Model
         ];
     }
 
-    public function getFirstError(string $attribute)
+    /**
+     * To get the first error in the Model
+     *
+     * @param string $attribute
+     * @return string
+     */
+    public function getFirstError(string $attribute) : string
     {
         return $this->errors[$attribute][0] ?? false;
     }

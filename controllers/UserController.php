@@ -8,7 +8,15 @@
     require_once dirname(__FILE__) . '/../models/Post.php';
 
     class UserController extends Controller {
+        /**
+         * Function called when trying to use the method GET on the user page
+         *
+         * @param Request $request The request
+         * @param Response $response The response
+         * @return void
+         */
         public function getRegister(Request $request, Response $response) {
+            /* Create a user model to then give it to the registration form */
             $userModel = new UserModel();
             $params = [
                 'model' => $userModel
@@ -16,7 +24,15 @@
             return $this->render('user', $params);
         }
 
+        /**
+         * Function called when trying to use the method POST on the user page
+         *
+         * @param Request $request The request
+         * @param Response $response The response
+         * @return void
+         */
         public function postRegister(Request $request, Response $response) {
+            /* We try to save the user sent from the request.body */
             $userModel = new UserModel();
             $userModel->loadData($request->getBody());
 
@@ -39,32 +55,26 @@
             $user->password = "some''\M'Pwd";
             $user->date_of_birth = date("Y-m-d");
             $user->confirmation_code = 'TEST';
-            $user->insert();
-            var_dump($user);
 
             $post1 = new Post();
             $post1->title = 'Some nice title';
             $post1->body = 'Some nice body';
-            $post1->user_id = $user->getId();
-            $post1->insert();
 
             $post2 = new Post();
             $post2->title = 'Some nice title 2';
-            $post2->user_id = $user->getId();
-            $post2->insert();
 
-            $users = User::get([], 5);
-            var_dump($users);
-            $posts = Post::get(['user_id' => $user->getId()], 5);
-            var_dump($posts);
+            $user->posts[] = $post1;
+            $user->posts[] = $post2;
 
-            var_dump($user->posts());
-            var_dump($post1->user());
-            var_dump($post2->user());
-            /*$user->delete();
+            $user->insert();
+
+            $user->fetch();
             var_dump($user);
-            $users = User::get([], 5);
-            var_dump($users);*/
+            foreach($user->posts as $p) {
+                $p->fetch();
+                var_dump($p);
+            }
+            var_dump($user);
 
             return $this->render('test', []);
         }

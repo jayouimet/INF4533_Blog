@@ -1,8 +1,8 @@
 <?php
-    require_once '../src/Application.php';
-    require_once '../controllers/HomeController.php';
-    require_once '../controllers/ContactController.php';
-    require_once '../controllers/UserController.php';
+    require_once dirname(__FILE__) . '/../src/Application.php';
+    require_once dirname(__FILE__) . '/../controllers/HomeController.php';
+    require_once dirname(__FILE__) . '/../controllers/ContactController.php';
+    require_once dirname(__FILE__) . '/../controllers/UserController.php';
 
     session_start();
     
@@ -17,6 +17,21 @@
             'databasename' => $ini['db_databasename']
         ]
     ];
+
+    /*user->posts : [
+        someNewPost : noId so always insert
+        postInBd1 (modified)
+        postInBd2 
+        (deletedPost)
+    ]
+
+    private or protected in dbModel attr inBD updated at each select [
+        id -> status (ex deleted if id present in array but not in posts its is assumed as deleted, modified, unchanged)
+    ]
+
+    id need an event on every attr for user->posts to set the post inbd key val to modified
+
+    user->upsert*/
 
     $app = new Application(dirname(__DIR__), $appConfig);
 

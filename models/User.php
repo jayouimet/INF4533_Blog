@@ -1,8 +1,11 @@
 <?php
     require_once dirname(__FILE__) . "/../src/database/DatabaseModel.php";
+    require_once dirname(__FILE__) . "/../src/database/DatabaseEnums.php";
+    require_once dirname(__FILE__) . "/../src/database/DatabaseRelation.php";
     require_once dirname(__FILE__) . '/Post.php';
 
     class User extends DatabaseModel {
+        /* Database attributes for User */
         public string $email = '';
         public string $username = '';
         public string $firstname = '';
@@ -15,13 +18,28 @@
         public $created_at;
         public $updated_at;
 
-        public function posts() {
-            return Post::get(['user_id' => $this->getId()]);
+        public array $posts;
+
+        /* Get all the post from this user */
+        public function fetch() {
+            if (isset($posts))
+                $this->posts = array_merge(array_filter($this->posts, "newElem"), Post::get(['user_id' => $this->getId()]));
+            else 
+                $this->posts =  Post::get(['user_id' => $this->getId()]);
+        }
+
+        public function newElem($element) {
+            return $element->getId() === 0;
         }
 
         protected static function relations(): array {
+            // For a relation, we create a DatabaseRelation object and give it values for:
+            // The attribute name
+            // The table name in the database
+            // The foreign key name
+            // The type of relationship
             return [
-                'posts' => DatabaseRelationship::ONE_TO_MANY
+                new DatabaseRelation("posts", "posts", "user_id", DatabaseRelationship::ONE_TO_MANY),
             ];
         }
 

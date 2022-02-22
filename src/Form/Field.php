@@ -10,17 +10,30 @@ abstract class Types
 
 class Field
 {
+    /* Declaration of needed variable for a Field */
     public Model $model;
     public string $attribute;
     public string $type;
 
-    public function __construct($model, string $attribute, string $type = Types::TEXT)
+    /**
+     * Constructor
+     *
+     * @param [type] $model The model
+     * @param string $attribute The attribute from the model
+     * @param [type] $type  The type of field
+     */ 
+    public function __construct(Model $model, string $attribute, string $type = Types::TEXT)
     {
         $this->model = $model;
         $this->attribute = $attribute;
         $this->type = $type;
     }
 
+    /**
+     * Redifining the __toString function to return HTML code
+     *
+     * @return string
+     */
     public function __toString()
     {
         return sprintf('

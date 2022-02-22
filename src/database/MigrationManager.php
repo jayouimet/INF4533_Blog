@@ -2,6 +2,9 @@
     require_once dirname(__FILE__) . "/Database.php";
 
     class MigrationManager {
+        /**
+         * The connection to the database.
+         */
         private $db;
 
         public function __construct($config = []) {
@@ -9,11 +12,23 @@
             $this->db->connect();
         }
 
+        /**
+         * To apply the migrations. $direction determine if the migration is UP or DOWN.
+         *
+         * @param string $direction The direction of the migration.
+         * @return void
+         */
         public function applyMigrations($direction) {
             $this->createMigrationsTable();
             $this->migrate($direction);
         }
 
+        /**
+         * Undocumented function
+         *
+         * @param [type] $direction
+         * @return void
+         */
         private function migrate($direction) {
             $mig = iterator_to_array($this->getMigrations($direction));
 
