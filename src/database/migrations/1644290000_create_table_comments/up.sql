@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `created_at` datetime NOT NULL DEFAULT NOW(),
   `updated_at` datetime NOT NULL DEFAULT NOW() ON UPDATE NOW(),
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`, `post_id`) REFERENCES users(`id`),
+  FOREIGN KEY (`user_id`) REFERENCES users(`id`),
+  FOREIGN KEY (`post_id`) REFERENCES posts(`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
