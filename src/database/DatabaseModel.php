@@ -59,6 +59,12 @@
             $values = [];
             $types = [];
 
+            $insertedIds = $this->insertObjectChilds();
+
+            foreach ($insertedIds as $key => $value) {
+                $this->{$key} = $value;
+            }
+
             foreach ($attributes as $key => $value) {
                 if (isset($this->{$key})) {
                     $columns[] = $key;
@@ -69,7 +75,7 @@
             $placeholders = array_fill(0, sizeof($columns), '?');
 
             $conn = Application::$db->getConnection();
-
+            
             $query = "INSERT INTO $table (" . implode(',', $columns) . ") VALUES (" . implode(',', $placeholders) . ");";
             $statement = $conn->prepare($query);
             $typeString = implode('', $types);
@@ -104,6 +110,24 @@
                     }
                 }
             }
+        }
+
+        private function insertObjectChilds() {
+            $relations = static::relations();
+            $ret = [];
+            foreach ($relations as $relation) {
+                if ($relation->relationship === DatabaseRelationship::MANY_TO_ONE) {
+                    $attrName = $relation->attrName;
+                    if (isset($this->$attrName)) {
+                        $child = $this->$attrName;
+                        if (isset($child)) {
+                            $child->upsert();
+                            $ret[$relation->fkAttr] = $child->getId();
+                        }
+                    }
+                }
+            }
+            return $ret;
         }
 
         public function upsert() {

@@ -9,18 +9,20 @@
         public int $likes = 0;
         public ?int $user_id = null;
 
-        /**
-         * Get the author of the post
-         *
-         * @return User The author
-         */
+        public User $user;
+
         public function user() : User {
             return User::getOne(['id' => $this->user_id]);
         }
 
+        public function fetch() {
+            if (!isset($this->user) || $this->user->getId() !== 0)
+                $this->user = User::getOne(['id' => $this->user_id]);
+        }
+
         protected static function relations(): array {
             return [
-                'users' => DatabaseRelationship::MANY_TO_ONE
+                new DatabaseRelation("user", "users", "user_id", DatabaseRelationship::MANY_TO_ONE),
             ];
         }
 

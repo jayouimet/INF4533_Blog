@@ -21,11 +21,23 @@
         public array $posts;
 
         /* Get all the post from this user */
-        public function getPosts() {
-            return Post::get(['user_id' => $this->getId()]);
+        public function fetch() {
+            if (isset($posts))
+                $this->posts = array_merge(array_filter($this->posts, "newElem"), Post::get(['user_id' => $this->getId()]));
+            else 
+                $this->posts =  Post::get(['user_id' => $this->getId()]);
+        }
+
+        public function newElem($element) {
+            return $element->getId() === 0;
         }
 
         protected static function relations(): array {
+            // For a relation, we create a DatabaseRelation object and give it values for:
+            // The attribute name
+            // The table name in the database
+            // The foreign key name
+            // The type of relationship
             return [
                 new DatabaseRelation("posts", "posts", "user_id", DatabaseRelationship::ONE_TO_MANY),
             ];

@@ -68,15 +68,13 @@
 
             $user->insert();
 
-            $dbUser = User::getOne(['id' => 3]);
-
-            var_dump($dbUser);
-            var_dump($dbUser->getPosts());
-
-            /*$user->delete();
+            $user->fetch();
             var_dump($user);
-            $users = User::get([], 5);
-            var_dump($users);*/
+            foreach($user->posts as $p) {
+                $p->fetch();
+                var_dump($p);
+            }
+            var_dump($user);
 
             return $this->render('test', []);
         }
