@@ -5,6 +5,7 @@
     require_once dirname(__FILE__) . '/../controllers/UserController.php';
     require_once dirname(__FILE__) . '/../controllers/DatabaseController.php';
     require_once dirname(__FILE__) . '/../controllers/CommentController.php';
+    require_once dirname(__FILE__) . '/../controllers/PostController.php';
 
     session_start();
     
@@ -60,6 +61,12 @@
     $app->router->post('/addcomment', [CommentController::class, 'postAddComment']);
 
     $app->router->get('/comments', [CommentController::class, 'getShowComment']);
+
+    $app->router->get('/addPost', [PostController::class, 'getAddPost']);
+
+    $app->router->post('/addPost', [PostController::class, 'postAddPost']);
+
+    $app->router->get('/showPosts', [PostController::class, 'getShowPosts']);
 
     $app->run();
 ?>
