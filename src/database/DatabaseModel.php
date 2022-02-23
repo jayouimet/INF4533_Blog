@@ -124,9 +124,8 @@
             foreach ($relations as $relation) {
                 if ($relation->relationship === DatabaseRelationship::ONE_TO_MANY) {
                     $attrName = $relation->attrName;
-                    $childs = $this->$attrName;
-                    if (isset($childs) && sizeof($childs) > 0){
-                        foreach ($childs as $child) {
+                    if (isset($this->$attrName) && sizeof($this->$attrName) > 0) {
+                        foreach ($this->$attrName as $child) {
                             $fkAttr = $relation->fkAttr;
                             $child->$fkAttr = $this->id;
                             $child->upsert();
@@ -157,7 +156,7 @@
         public function upsert() {
             if ($this->id === null || !static::getOne(['id' => $this->id]))
                 return $this->insert();
-            return true;
+            return $this->update();
         }
 
         public function delete() {
@@ -174,7 +173,46 @@
         }
 
         public function update() {
+            if ($this->id === null)
+                return false;
 
+            $table = $this->table();
+            $attributes = $this->attributes();
+
+            $columns = [];
+            $values = [];
+            $types = [];
+
+            $insertedIds = $this->upsertObjectChilds();
+
+            foreach ($insertedIds as $key => $value) {
+                $this->{$key} = $value;
+            }
+
+            foreach ($attributes as $key => $value) {
+                if (isset($this->{$key})) {
+                    $columns[] = $key;
+                    $types[] = $value;
+                }
+            }
+
+            $conn = Application::$db->getConnection();
+            
+            $query = "UPDATE $table SET " . implode(' = ?,', $columns) . " = ? WHERE id = " . $this->id . ";";
+            $statement = $conn->prepare($query);
+            $typeString = implode('', $types);
+
+            foreach ($columns as  $col) {
+                if (isset($this->{$col}))
+                    $values[] = $this->{$col};
+            }
+
+            $statement->bind_param($typeString, ...$values);
+            $statement->execute();
+
+            $this->upsertArrayChilds();
+
+            return true;
         }
 
         public static function get($conditions = null, ?int $limit = null) {

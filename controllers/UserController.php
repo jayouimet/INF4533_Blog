@@ -17,12 +17,7 @@
          * @return void
          */
         public function getRegister(Request $request, Response $response) {
-            /* Create a user model to then give it to the registration form */
-            $userModel = new UserModel();
-            $params = [
-                'model' => $userModel
-            ];
-            return $this->render('user', $params);
+            return $this->render('users/adduser', []);
         }
 
         /**
@@ -33,6 +28,34 @@
          * @return void
          */
         public function postRegister(Request $request, Response $response) {
+            /* We try to save the user sent from the request.body */
+            $user = new User();
+
+            $user->loadData($request->getBody());
+            var_dump("Before the if");
+            die;
+            if($user->validate() && $user->register()){
+                var_dump("In the if");
+                $response->redirect('/');
+            }
+            var_dump("Out of the if");
+            die;
+            $params = [
+                'user' => $user
+            ];
+            return $this->render('users/adduser', $params);
+        }
+
+        public function getLogin(Request $request, Response $response) {
+            /* Create a user model to then give it to the registration form */
+            $userModel = new UserModel();
+            $params = [
+                'model' => $userModel
+            ];
+            return $this->render('user', $params);
+        }
+
+        public function postLogin(Request $request, Response $response) {
             /* We try to save the user sent from the request.body */
             $userModel = new UserModel();
             $userModel->loadData($request->getBody());
@@ -77,8 +100,10 @@
             }
             var_dump($user);*/
 
-            $users = User::get();
-            var_dump($users);
+            $user = User::getOne(['id' => 6]);
+            $user->confirmation_code = 'TEST123';
+            $user->update();
+            var_dump($user);
 
             return $this->render('test', []);
         }

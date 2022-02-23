@@ -12,8 +12,13 @@
          * @return void
          */
         public function getHome(Request $request, Response $response) {
+            $user = AuthProvider::getSessionObject();
+            if (!isset($user)) {
+                $user = new User();
+                $user->username = "Not logged in";
+            }
             $params = [
-                'name' => "TestName"
+                'user' => $user
             ];
 
             // $_SESSION["test"] = "testSession";

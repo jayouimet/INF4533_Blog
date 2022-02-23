@@ -81,8 +81,11 @@
         }
 
         public function register(){
-            // new user created
-            return true;
+            if ($this->insert()) {
+                AuthProvider::login($this);
+                return true;
+            }
+            return false;
         }
 
         public function login() {

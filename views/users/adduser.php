@@ -5,7 +5,8 @@ echo "First name : <input type='text' name='firstname'><br>" ;
 echo "Last name : <input type='text' name='lastname'><br>" ;
 echo "Email : <input type='text' name='email'><br>" ;
 echo "Date of birth : <input type='text' name='date_of_birth'><br>" ;
-echo "Password : <input type='text' name='passworld'><br>" ;
+echo "Password : <input type='text' name='password'><br>" ;
+echo "Confirm password : <input type='text' name='passwordConfirm'><br>" ;
 echo "<input type='submit'>";
 echo "</form>";
 
