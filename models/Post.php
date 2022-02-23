@@ -33,7 +33,8 @@
         public function rules(): array {
             return [
                 'title' => [Rules::REQUIRED],
-                'body' => [],
+                'user_id' => [Rules::REQUIRED],
+                'body' => [Rules::REQUIRED],
             ];
         }
 
