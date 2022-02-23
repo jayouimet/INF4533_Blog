@@ -1,6 +1,6 @@
 <?php
 echo "<form action='/INF4533_Blog/addcomment' method='post'>";
-echo "Comment : <input type='text' name='comment' minlength='1'><br>" ;
+echo "Comment : <input type='text' name='comment' required minlength='1'><br>" ;
 echo "<input type='submit'>";
 echo "</form>";
 
