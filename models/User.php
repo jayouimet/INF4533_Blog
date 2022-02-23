@@ -2,19 +2,22 @@
     require_once dirname(__FILE__) . "/../src/database/DatabaseModel.php";
     require_once dirname(__FILE__) . "/../src/database/DatabaseEnums.php";
     require_once dirname(__FILE__) . "/../src/database/DatabaseRelation.php";
+    
+    require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
+
     require_once dirname(__FILE__) . '/Post.php';
 
     class User extends DatabaseModel {
         /* Database attributes for User */
         public string $email = '';
         public string $username = '';
-        public string $firstname = '';
-        public string $lastname = '';
+        public ?string $firstname = '';
+        public ?string $lastname = '';
         public string $password = '';
         public string $passwordConfirm = '';
         public $date_of_birth = '';
         public bool $is_active;
-        public string $confirmation_code;
+        public ?string $confirmation_code;
         public $created_at;
         public $updated_at;
         public ?string $profile_picture = '';
@@ -48,8 +51,8 @@
             return [
                 'email' => [Rules::REQUIRED],
                 'username' => [Rules::REQUIRED],
-                'firstname' => [Rules::REQUIRED],
-                'lastname' => [Rules::REQUIRED],
+                'firstname' => [],
+                'lastname' => [],
                 'date_of_birth' => [Rules::REQUIRED],
                 'password' => [Rules::REQUIRED, [Rules::MIN, 'min' => 8]],
                 'passwordConfirm' => [Rules::REQUIRED, [Rules::MATCH, 'match' => 'password']],

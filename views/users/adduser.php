@@ -1,5 +1,5 @@
 <?php
-echo "<form action='/INF4533_Blog/adduser' method='post'>";
+echo "<form action='/INF4533_Blog/register' method='post'>";
 echo "Username : <input type='text' name='username'><br>" ;
 echo "First name : <input type='text' name='firstname'><br>" ;
 echo "Last name : <input type='text' name='lastname'><br>" ;

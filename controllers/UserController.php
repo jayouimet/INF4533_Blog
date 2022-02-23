@@ -2,6 +2,8 @@
     require_once dirname(__FILE__) . '/../src/Controller.php';
     require_once dirname(__FILE__) . '/../src/Request.php';
     require_once dirname(__FILE__) . '/../src/Response.php';
+    
+    require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
 
     require_once dirname(__FILE__) . '/../models/UserModel.php';
     require_once dirname(__FILE__) . '/../models/User.php';
@@ -32,14 +34,10 @@
             $user = new User();
 
             $user->loadData($request->getBody());
-            var_dump("Before the if");
-            die;
+            var_dump($user->validate());
             if($user->validate() && $user->register()){
-                var_dump("In the if");
                 $response->redirect('/');
             }
-            var_dump("Out of the if");
-            die;
             $params = [
                 'user' => $user
             ];

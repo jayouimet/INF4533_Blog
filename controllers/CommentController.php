@@ -38,7 +38,6 @@
             if ($comment->upsert()) {
                 $params ['isInserted'] = true;
             }
-            
 
             return $this->render('comments/addcomment', $params);
         }

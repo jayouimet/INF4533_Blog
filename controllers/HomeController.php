@@ -3,6 +3,8 @@
     require_once dirname(__FILE__) . '/../src/Request.php';
     require_once dirname(__FILE__) . '/../src/Response.php';
 
+    require_once dirname(__FILE__) . '/../models/User.php';
+
     class HomeController extends Controller {
         /**
          * Function called when trying to use the method Get on the home page
@@ -17,8 +19,10 @@
                 $user = new User();
                 $user->username = "Not logged in";
             }
+
             $params = [
-                'user' => $user
+                'currentUser' => $user,
+                'users' => User::get()
             ];
 
             // $_SESSION["test"] = "testSession";
