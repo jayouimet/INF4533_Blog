@@ -83,7 +83,7 @@
             $values = [];
             $types = [];
 
-            $insertedIds = $this->insertObjectChilds();
+            $insertedIds = $this->upsertObjectChilds();
 
             foreach ($insertedIds as $key => $value) {
                 $this->{$key} = $value;
@@ -114,12 +114,12 @@
 
             $this->id = $statement->insert_id;
 
-            $this->insertArrayChilds();
+            $this->upsertArrayChilds();
 
             return true;
         }
 
-        private function insertArrayChilds() {
+        private function upsertArrayChilds() {
             $relations = static::relations();
             foreach ($relations as $relation) {
                 if ($relation->relationship === DatabaseRelationship::ONE_TO_MANY) {
@@ -136,7 +136,7 @@
             }
         }
 
-        private function insertObjectChilds() {
+        private function upsertObjectChilds() {
             $relations = static::relations();
             $ret = [];
             foreach ($relations as $relation) {
@@ -173,7 +173,9 @@
             $this->id = null;
         }
 
-        // TODO: Update
+        public function update() {
+
+        }
 
         public static function get($conditions = null, ?int $limit = null) {
             $table = static::table();

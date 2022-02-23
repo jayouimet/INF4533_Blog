@@ -1,5 +1,7 @@
 <?php
     require_once dirname(__FILE__) . "/../src/database/DatabaseModel.php";
+    require_once dirname(__FILE__) . "/../src/database/DatabaseRelation.php";
+    require_once dirname(__FILE__) . "/../src/database/DatabaseEnums.php";
     require_once dirname(__FILE__) . '/User.php';
 
     class Post extends DatabaseModel {
@@ -9,6 +11,7 @@
         public ?int $user_id = null;
 
         public User $user;
+        public array $comments;
 
         public function user() : User {
             return User::getOne(['id' => $this->user_id]);
@@ -22,6 +25,7 @@
         protected static function relations(): array {
             return [
                 new DatabaseRelation("user", User::class, "user_id", DatabaseRelationship::MANY_TO_ONE),
+                new DatabaseRelation("comments", Comment::class, "post_id", DatabaseRelationship::ONE_TO_MANY),            
             ];
         }
 

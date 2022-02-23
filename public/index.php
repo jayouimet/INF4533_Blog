@@ -4,6 +4,7 @@
     require_once dirname(__FILE__) . '/../controllers/ContactController.php';
     require_once dirname(__FILE__) . '/../controllers/UserController.php';
     require_once dirname(__FILE__) . '/../controllers/DatabaseController.php';
+    require_once dirname(__FILE__) . '/../controllers/CommentController.php';
 
     session_start();
     
@@ -53,6 +54,10 @@
     $app->router->get('/migrate_up', [DatabaseController::class, 'getUp']);
 
     $app->router->get('/migrate_down', [DatabaseController::class, 'getdown']);
+
+    $app->router->get('/addcomment', [CommentController::class, 'getAddComment']);
+
+    $app->router->post('/addcomment', [CommentController::class, 'postAddComment']);
 
     $app->run();
 ?>

@@ -6,6 +6,7 @@
     require_once dirname(__FILE__) . '/../models/UserModel.php';
     require_once dirname(__FILE__) . '/../models/User.php';
     require_once dirname(__FILE__) . '/../models/Post.php';
+    require_once dirname(__FILE__) . '/../models/Comment.php';
 
     class UserController extends Controller {
         /**
@@ -47,7 +48,7 @@
         }
 
         public function test(Request $request, Response $response) {
-            $user = new User();
+            /*$user = new User();
             $user->username = 'jayouimet';
             $user->email = 'jayouimet@hotmail.com';
             $user->firstname = 'Jeremie';
@@ -74,7 +75,10 @@
                 $p->fetch();
                 var_dump($p);
             }
-            var_dump($user);
+            var_dump($user);*/
+
+            $users = User::get();
+            var_dump($users);
 
             return $this->render('test', []);
         }

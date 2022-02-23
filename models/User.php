@@ -21,6 +21,7 @@
         public ?string $status_message = '';
 
         public array $posts;
+        public array $comments;
 
         /* Get all the post from this user */
         /*public function fetch() {
@@ -38,6 +39,7 @@
             // The type of relationship
             return [
                 new DatabaseRelation("posts", Post::class, "user_id", DatabaseRelationship::ONE_TO_MANY),
+                new DatabaseRelation("comments", Comment::class, "user_id", DatabaseRelationship::ONE_TO_MANY),
             ];
         }
 
