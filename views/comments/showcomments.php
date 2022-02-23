@@ -1,9 +1,8 @@
 <ul>
   <?php
-    $comments = ["Comment1", "Comment2", "Comment3"];
 
     foreach($comments as $comment) {
-      echo "<li>" . $comment . "</li>";
+      echo "<li>" . $comment-> body . "</li>";
     }
   ?>
 </ul>

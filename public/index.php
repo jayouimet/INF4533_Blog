@@ -59,5 +59,7 @@
 
     $app->router->post('/addcomment', [CommentController::class, 'postAddComment']);
 
+    $app->router->get('/comments', [CommentController::class, 'getShowComment']);
+
     $app->run();
 ?>

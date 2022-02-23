@@ -16,22 +16,31 @@
             return $this->render('comments/addcomment', []);
         }
 
+        public function getShowComment(Request $request, Response $response) {
+            $comments = Comment::get();
+            $params = [
+                'comments' => $comments
+            ];
+            return $this->render('comments/showcomments', $params);
+        }
+
         public function postAddComment(Request $request, Response $response) {
             $body = $request->getBody();
-
-            $user_id = 6;
-            $post_id = 30;
-
+            /* TO DO ROSALIE : s'assurer que le body est une string > 0, si < 0 
+            mettre un message d'erreur, avec un if, else, mettre "Veuillez entrer 
+            un commentaire avant de soumettre" */
             $comment = new Comment();
-            $comment->user_id = $user_id;
-            $comment->post_id = $post_id;
+            $comment->user_id = 1;
+            $comment->post_id = 1;
             $comment->body = $body["comment"];
 
-            $comment->upsert();
+            $params = ['isInserted' => false];
+            if ($comment->upsert()) {
+                $params ['isInserted'] = true;
+            }
+            
 
-            var_dump($comment);
-
-            return $this->render('comments/addcomment', []);
+            return $this->render('comments/addcomment', $params);
         }
     }
 ?>
