@@ -78,21 +78,22 @@
             ];
         }
 
-        public function insert() {
-            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
-            return parent::insert();
-        }
-
         public function register(){
-            if ($this->insert()) {
+            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
+            if (parent::insert()) {
                 AuthProvider::login($this);
                 return true;
             }
             return false;
         }
 
-        public function login() {
-            
+        public static function login($username, $password) {
+            $result = User::getOne(['username' => $username]);
+            if ($result && password_verify($password, $result->password)) {
+                AuthProvider::login($result);
+                return $result;
+            }
+            return false;
         }
     }
 ?>

@@ -1,5 +1,8 @@
 <?php
-echo "<form action='/INF4533_Blog/register' method='post'>";
+require_once dirname(__FILE__) . '/../../src/Application.php';
+
+echo "<a href='". Application::$baseUrl ."/'>Home page</a>";
+echo "<form action='". Application::$baseUrl ."/register' method='post'>";
 echo "Username : <input type='text' name='username' required minlength='1'><br>" ;
 echo "First name : <input type='text' name='firstname'><br>" ;
 echo "Last name : <input type='text' name='lastname'><br>" ;
@@ -11,11 +14,13 @@ echo "<input type='submit'>";
 echo "</form>";
 
 if (isset($isInserted)) {
-if ($isInserted) {
-    echo "Account created successfully";
-} else {
-    echo "Account could not be created, try again later.";
+    if ($isInserted) {
+        echo "Account created successfully";
+    } else {
+        echo "Account could not be created, try again later.";
+    }
 }
-}
+
+echo "<a href='". Application::$baseUrl ."/login'>Already have an account?</a>";
 
 ?>

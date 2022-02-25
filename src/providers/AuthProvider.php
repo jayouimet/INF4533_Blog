@@ -42,9 +42,13 @@ class AuthProvider {
      * @return mixed    Returns an object.
      */
     public static function getSessionObject() {
-        if(!isset($_SESSION[AuthProvider::$keyID])) return "";
+        if(!isset($_SESSION[AuthProvider::$keyID])) return null;
         
         return $_SESSION[AuthProvider::$keyID];
+    }
+
+    public static function isAuthed() {
+        return isset($_SESSION[AuthProvider::$keyID]);
     }
 }
 

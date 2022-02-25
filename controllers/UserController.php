@@ -2,7 +2,7 @@
     require_once dirname(__FILE__) . '/../src/Controller.php';
     require_once dirname(__FILE__) . '/../src/Request.php';
     require_once dirname(__FILE__) . '/../src/Response.php';
-    
+
     require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
 
     require_once dirname(__FILE__) . '/../models/UserModel.php';
@@ -34,7 +34,7 @@
             $user = new User();
 
             $user->loadData($request->getBody());
-            var_dump($user->validate());
+            var_dump($user);
             if($user->validate() && $user->register()){
                 $response->redirect('/');
             }
@@ -44,28 +44,33 @@
             return $this->render('users/adduser', $params);
         }
 
-        public function getLogin(Request $request, Response $response) {
-            /* Create a user model to then give it to the registration form */
-            $userModel = new UserModel();
-            $params = [
-                'model' => $userModel
-            ];
-            return $this->render('user', $params);
-        }
-
-        public function postLogin(Request $request, Response $response) {
+        public function login(Request $request, Response $response) {
             /* We try to save the user sent from the request.body */
-            $userModel = new UserModel();
-            $userModel->loadData($request->getBody());
-
-            if($userModel->validate() && $userModel->register()){
-                $response->redirect('/');
+            $body = $request->getBody();
+            if (!isset($body['username']) && !isset($body['password'])) {
+                return $this->render('users/loginForm', []);
             }
 
-            $params = [
-                'model' => $userModel
-            ];
-            return $this->render('user', $params);
+            try {
+                $user = User::login($body['username'], $body['password']);
+
+                if ($user) {
+                    $response->redirect('/');
+                }
+
+                throw new Exception("Username/password did not match.");
+            }
+            catch (Exception $e) {
+                $params = [
+                    'errorMessageId' => "invalidCredentials"
+                ];
+                return $this->render('users/loginForm', $params);
+            }           
+        }
+
+        public function postLogout(Request $request, Response $response) {
+            AuthProvider::logout();
+            return $response->redirect('/');
         }
 
         public function test(Request $request, Response $response) {

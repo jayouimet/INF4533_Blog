@@ -7,6 +7,8 @@
     require_once dirname(__FILE__) . '/../models/Post.php';
     require_once dirname(__FILE__) . '/../models/Comment.php';
 
+    require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
+
     class PostController extends Controller {
         /**
          * Function called when trying to use the method GET on the post page
@@ -16,6 +18,8 @@
          * @return void
          */
         public function getAddPost(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed())
+                return $response->redirect('/');
             /* Create a post model to then give it to the registration form */
             $postModel = new Post();
             $params = [
@@ -32,6 +36,8 @@
          * @return void
          */
         public function postAddPost(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed())
+                return $response->redirect('/');
             /* We try to save the post sent from the request.body */
             $postModel = new Post();
             $postModel->loadData($request->getBody());

@@ -7,6 +7,7 @@
     class Application {
         /* Variables needed to run the APP */
         public static string $ROOT_DIR;
+        public static string $baseUrl = '';
         public Router $router;
         public Request $request;
         public Response $response;
@@ -30,10 +31,13 @@
             $this->response = new Response();
 
             /* Creating the router based on if there's a baseUrl in the config map. */
-            if (isset($config['baseUrl']))
+            if (isset($config['baseUrl'])) {
+                self::$baseUrl = $config['baseUrl'];
                 $this->router = new Router($this->request, $this->response, $config['baseUrl']);
-            else
+            }
+            else {
                 $this->router = new Router($this->request, $this->response);
+            }
 
             /* To set the database config */
             if (isset($config['dbConfig'])) {

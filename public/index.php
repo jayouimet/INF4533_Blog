@@ -50,6 +50,11 @@
 
     $app->router->post('/register', [UserController::class, 'postRegister']);
 
+    $app->router->post('/logout', [UserController::class, 'postLogout']);
+
+    $app->router->get('/login', [UserController::class, 'login']);
+    $app->router->post('/login', [UserController::class, 'login']);
+
     $app->router->get('/test', [UserController::class, 'test']);
 
     $app->router->get('/migrate_up', [DatabaseController::class, 'getUp']);
@@ -62,11 +67,11 @@
 
     $app->router->get('/comments', [CommentController::class, 'getShowComment']);
 
-    $app->router->get('/addPost', [PostController::class, 'getAddPost']);
+    $app->router->get('/addpost', [PostController::class, 'getAddPost']);
 
-    $app->router->post('/addPost', [PostController::class, 'postAddPost']);
+    $app->router->post('/addpost', [PostController::class, 'postAddPost']);
 
-    $app->router->get('/showPosts', [PostController::class, 'getShowPosts']);
+    $app->router->get('/showposts', [PostController::class, 'getShowPosts']);
 
     $app->run();
 ?>

@@ -3,6 +3,8 @@
     require_once dirname(__FILE__) . '/../src/Request.php';
     require_once dirname(__FILE__) . '/../src/Response.php';
     require_once dirname(__FILE__) . '/../models/Comment.php';
+    
+    require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
 
     class CommentController extends Controller {
         /**
@@ -13,6 +15,8 @@
          * @return void
          */
         public function getAddComment(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed())
+                return $response->redirect('/');
             return $this->render('comments/addcomment', []);
         }
 
@@ -25,6 +29,8 @@
         }
 
         public function postAddComment(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed())
+                return $response->redirect('/');
             $body = $request->getBody();
             /* TO DO ROSALIE : s'assurer que le body est une string > 0, si < 0 
             mettre un message d'erreur, avec un if, else, mettre "Veuillez entrer 

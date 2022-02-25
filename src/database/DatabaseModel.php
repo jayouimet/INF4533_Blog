@@ -102,6 +102,9 @@
             
             $query = "INSERT INTO $table (" . implode(',', $columns) . ") VALUES (" . implode(',', $placeholders) . ");";
             $statement = $conn->prepare($query);
+            if (!$statement) {
+                throw new Exception("Couldn't create an sql statement with the provided values.");
+            }
             $typeString = implode('', $types);
 
             foreach ($columns as  $col) {
@@ -167,6 +170,9 @@
             $table = static::table();
             $query = "DELETE FROM $table WHERE id = ?;";
             $statement = $conn->prepare($query);
+            if (!$statement) {
+                throw new Exception("Couldn't create an sql statement with the provided values.");
+            }
             $statement->bind_param('i', $this->id);
             $statement->execute();
             $this->id = null;
@@ -200,6 +206,9 @@
             
             $query = "UPDATE $table SET " . implode(' = ?,', $columns) . " = ? WHERE id = " . $this->id . ";";
             $statement = $conn->prepare($query);
+            if (!$statement) {
+                throw new Exception("Couldn't create an sql statement with the provided values.");
+            }
             $typeString = implode('', $types);
 
             foreach ($columns as  $col) {
@@ -238,6 +247,9 @@
                     $query .= " LIMIT $limit";
                 $query .= ';';
                 $statement = $conn->prepare($query);
+                if (!$statement) {
+                    throw new Exception("Couldn't create an sql statement with the provided values.");
+                }
 
                 $statement->bind_param($typeString, ...$values);
             } else {
@@ -245,6 +257,9 @@
                     $query .= " LIMIT $limit";
                 $query .= ';';
                 $statement = $conn->prepare($query);
+                if (!$statement) {
+                    throw new Exception("Couldn't create an sql statement with the provided values.");
+                }
             }
 
             $statement->execute();
