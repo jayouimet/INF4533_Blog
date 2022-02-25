@@ -10,6 +10,9 @@
         public string $body = '';
         public ?int $user_id = null;
 
+        public string $created_at;
+        public string $updated_at;
+
         public User $user;
         public array $comments;
 

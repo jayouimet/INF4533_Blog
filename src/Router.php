@@ -28,6 +28,51 @@
             $this->routes['post'][strtolower($path)] = $callback;
         }
 
+        private function tryGetDynamicCallBack() {
+            // Get the path from the request
+            $path = $this->request->getPath();
+            // Get the method from the request, get or post
+            $method = $this->request->getMethod();
+            // We trim out the base url if it is setup
+            if (substr($path, 0, strlen($this->baseUrl)) == $this->baseUrl) {
+                $path = substr($path, strlen($this->baseUrl));
+            }
+            // Trim out the extra slash if there is one
+            if (strlen($path) > 1)
+                $path = rtrim($path, '/');
+            // We make it case unsensitive
+            $path = strtolower($path);
+
+            $routes = $this->routes[$method] ?? [];
+
+            $routeParams = false;
+
+            foreach ($routes as $route => $callback) {
+                $routeNames = [];
+
+                // if (preg_match_all('/\{[^}]*\}/', $route, $matches)) {
+                // if (preg_match_all('/\{(\w+)(:[^}]+)?}/', $route, $matches)) {
+                if (preg_match_all('/\{([^}]+)?}/', $route, $matches)) {
+                    $routeNames = $matches[1];
+                }
+
+                $routeRegex = "@^" . preg_replace('/\{\w+(:([^}]+))?}/', '(\w+)', $route) . "$@";
+
+                if (preg_match_all($routeRegex, $path, $valueMatches)) {
+                    $values = [];
+                    for ($i = 1; $i < count($valueMatches); $i++) {
+                        $values[] = $valueMatches[$i][0];
+                    }
+                    $routeParams = array_combine($routeNames, $values);
+    
+                    $this->request->setRouteParams($routeParams);
+                    return $callback;
+                }
+            }
+
+            return false;
+        }
+
         public function resolve() {
             // Get the path from the request
             $path = $this->request->getPath();
@@ -42,21 +87,21 @@
                 $path = rtrim($path, '/');
             // We make it case unsensitive
             $path = strtolower($path);
-            // If we can not find the route in our 2D array of routes, we return a 404
-            if (!isset($this->routes[$method][$path])) {
-                $this->response->setStatusCode(404);
-                return $this->renderView($this->p404);
-            }
             // Get the callback expression stored at this place in the array (see method get and post)
-            $callback = $this->routes[$method][$path];
-            // Old version only supported to render a file
-            if (is_string($callback)) {
-                return $this->renderView($callback);
+            $callback = $this->routes[$method][$path] ?? false;
+
+            // If we can not find the route in our 2D array of routes, we return a 404
+            if (!$callback) {
+                $callback = $this->tryGetDynamicCallback();
+
+                if (!$callback) {
+                    $this->response->setStatusCode(404);
+                    return $this->renderView($this->p404);
+                }
             }
-            // If it is an array, create an instance on the class in the first arg
-            if (is_array($callback)) {
-                $callback[0] = new $callback[0]();
-            }
+            
+            $callback[0] = new $callback[0]();
+
             // Call the function and passes the request and response as parameters
             return call_user_func($callback, $this->request, $this->response);
         }

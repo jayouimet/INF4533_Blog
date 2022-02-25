@@ -67,5 +67,19 @@
             ];
             return $this->render('posts/showPosts', $params);
         }
+
+        public function getPost(Request $request, Response $response) {
+            /* Create a post model to then give it to the registration form */
+            $id = $request->getRouteParam('id');
+            $post = Post::getOne(['id' => $id]);
+            $post->fetch();
+            if (!$post) {
+                return $this->render('errors/404', []);
+            }
+            $params = [
+                'post' => $post
+            ];
+            return $this->render('posts/showPost', $params);
+        }
     }
 ?>

@@ -71,7 +71,9 @@
 
     $app->router->post('/addpost', [PostController::class, 'postAddPost']);
 
-    $app->router->get('/showposts', [PostController::class, 'getShowPosts']);
+    $app->router->get('/posts', [PostController::class, 'getPosts']);
+
+    $app->router->get('/posts/{id}', [PostController::class, 'getPost']);
 
     $app->run();
 ?>

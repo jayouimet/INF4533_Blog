@@ -1,5 +1,7 @@
 <?php
     class Request {
+        private array $routeParams = [];
+
         public function getPath() {
             $path = $_SERVER["REQUEST_URI"] ?? '/';
             $pos = strpos($path, '?');
@@ -29,6 +31,19 @@
             }
 
             return $body;
+        }
+
+        public function setRouteParams($params) {
+            $this->routeParams = $params;
+            return $this;
+        }
+
+        public function getRouteParams() {
+            return $this->routeParams;
+        }
+
+        public function getRouteParam($param, $default = null) {
+            return $this->routeParams[$param] ?? $default;
         }
     }
 ?>

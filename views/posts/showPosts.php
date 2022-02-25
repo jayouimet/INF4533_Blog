@@ -20,7 +20,7 @@
             ",
             $post->user_id,
             $post->title,
-            $post->post_image,
+            $post->post_image ?? null,
             $post->created_at,
             $post->body);
 
