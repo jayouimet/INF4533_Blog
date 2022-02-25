@@ -8,7 +8,7 @@
     </tr>
 
     <?php
-        require_once dirname(__FILE__) . '/../../src/Application.php';
+        require_once dirname(__FILE__) . '/../../../src/Application.php';
 
         foreach($posts as $post){
             echo "<tr>";

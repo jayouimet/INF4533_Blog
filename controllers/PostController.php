@@ -25,7 +25,7 @@
             $params = [
                 'model' => $postModel
             ];
-            return $this->render('posts/addPost', $params);
+            return $this->render('pages/posts/createPost', $params);
         }
 
         /**
@@ -52,37 +52,21 @@
             $params = [
                 'model' => $post
             ];
-            return $this->render('posts/addPost', $params);
-        }
-
-        /**
-         * Function called when trying to use the method GET on the post page to see all posts
-         *
-         * @param Request $request The request
-         * @param Response $response The response
-         * @return void
-         */
-        public function getPosts(Request $request, Response $response) {
-            /* Create a post model to then give it to the registration form */
-            $posts = Post::get([]);
-            $params = [
-                'posts' => $posts
-            ];
-            return $this->render('posts/showPosts', $params);
+            return $this->render('pages/posts/createPost', $params);
         }
 
         public function getPost(Request $request, Response $response) {
             /* Create a post model to then give it to the registration form */
             $id = $request->getRouteParam('id');
             $post = Post::getOne(['id' => $id]);
-            $post->fetch();
             if (!$post) {
                 return $this->render('errors/404', []);
             }
+            $post->fetch();
             $params = [
                 'post' => $post
             ];
-            return $this->render('posts/showPost', $params);
+            return $this->render('pages/posts/showPost', $params);
         }
     }
 ?>

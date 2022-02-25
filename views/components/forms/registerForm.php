@@ -1,7 +1,6 @@
 <?php
-require_once dirname(__FILE__) . '/../../src/Application.php';
+require_once dirname(__FILE__) . '/../../../src/Application.php';
 
-echo "<a href='". Application::$baseUrl ."/'>Home page</a>";
 echo "<form action='". Application::$baseUrl ."/register' method='post'>";
 echo "Username : <input type='text' name='username' required minlength='1'><br>" ;
 echo "First name : <input type='text' name='firstname'><br>" ;
@@ -20,7 +19,5 @@ if (isset($isInserted)) {
         echo "Account could not be created, try again later.";
     }
 }
-
-echo "<a href='". Application::$baseUrl ."/login'>Already have an account?</a>";
 
 ?>

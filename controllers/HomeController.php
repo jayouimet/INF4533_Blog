@@ -26,7 +26,7 @@
                 unset($_SESSION['test']);
             }*/
 
-            return $this->render('home', $params);
+            return $this->render('pages/home', $params);
         }
     }
 ?>
