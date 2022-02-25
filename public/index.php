@@ -42,25 +42,22 @@
     $app->router->get('/', [HomeController::class, 'getHome']);
 
     $app->router->get('/migrate_up', [DatabaseController::class, 'getUp']);
-
     $app->router->get('/migrate_down', [DatabaseController::class, 'getdown']);
 
-    // User Register
+    // User related routes
     $app->router->get('/register', [UserController::class, 'getRegister']);
-
     $app->router->post('/register', [UserController::class, 'postRegister']);
-
     $app->router->post('/logout', [UserController::class, 'postLogout']);
-
     $app->router->get('/login', [UserController::class, 'login']);
-
     $app->router->post('/login', [UserController::class, 'login']);
 
+    // Post related routes
     $app->router->get('/addpost', [PostController::class, 'getAddPost']);
-
     $app->router->post('/addpost', [PostController::class, 'postAddPost']);
-
     $app->router->get('/posts/{id}', [PostController::class, 'getPost']);
+
+    // Comments related routes
+    $app->router->post('/addcomment/{post_id}', [CommentController::class, 'postComment']);
 
     $app->run();
 ?>

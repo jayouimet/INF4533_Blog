@@ -47,5 +47,30 @@
 
             return $this->render('comments/addcomment', $params);
         }
+
+        public function postComment(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed())
+                return $response->redirect('/');
+
+            $body = $request->getBody();
+            
+            $user = AuthProvider::getSessionObject();
+            $post_id = $id = $request->getRouteParam('post_id');
+            /* TO DO ROSALIE : s'assurer que le body est une string > 0, si < 0 
+            mettre un message d'erreur, avec un if, else, mettre "Veuillez entrer 
+            un commentaire avant de soumettre" */
+            $comment = new Comment();
+
+            $comment->user_id = $user->getId();
+            $comment->post_id = $post_id;
+            $comment->body = $body["comment"];
+
+            $params = [];
+            if (!$comment->upsert()) {
+                $params['errorMessageId'] = 'unexpectedErrorAddComment';
+            }
+
+            return $response->redirect(('/posts/' . $post_id), $params);
+        }
     }
 ?>

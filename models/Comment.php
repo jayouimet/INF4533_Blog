@@ -11,6 +11,9 @@
         public ?int $user_id = null;
         public string $body = "";
 
+        public string $updated_at = "";
+        public string $created_at = "";
+
         public Post $post;
         public User $user;
 

@@ -6,4 +6,11 @@
     echo "<div>Image Src : " . ($post->post_image ?? null) . "</div>";
     echo "<div>Created at : " . $post->created_at . "</div>";
     echo "<div>Body : " . $post->body . "</div>";
+
+    $post_id = $post->getId();
+    $comments = $post->comments;
+    echo "<h4>Add a comment</h4>";
+    require dirname(__FILE__) . '/../../components/forms/commentForm.php';
+    echo "<h4>Comments</h4>";
+    require dirname(__FILE__) . '/../../components/lists/commentList.php';
 ?>
