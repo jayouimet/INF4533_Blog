@@ -34,7 +34,7 @@
             $user = new User();
 
             $user->loadData($request->getBody());
-            var_dump($user);
+            
             if($user->validate() && $user->register()){
                 $response->redirect('/');
             }
