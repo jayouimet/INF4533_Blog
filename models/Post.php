@@ -36,7 +36,6 @@
         public function rules(): array {
             return [
                 'title' => [Rules::REQUIRED],
-                'user_id' => [Rules::REQUIRED],
                 'body' => [Rules::REQUIRED],
             ];
         }

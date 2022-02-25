@@ -53,6 +53,7 @@
     $app->router->post('/logout', [UserController::class, 'postLogout']);
 
     $app->router->get('/login', [UserController::class, 'login']);
+    
     $app->router->post('/login', [UserController::class, 'login']);
 
     $app->router->get('/test', [UserController::class, 'test']);

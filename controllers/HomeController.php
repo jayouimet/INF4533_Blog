@@ -17,7 +17,8 @@
             $user = AuthProvider::getSessionObject();
             $params = [
                 'currentUser' => $user,
-                'users' => User::get()
+                'users' => User::get(),
+                'posts' => Post::get()
             ];
 
             // $_SESSION["test"] = "testSession";

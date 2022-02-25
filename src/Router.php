@@ -50,8 +50,6 @@
             foreach ($routes as $route => $callback) {
                 $routeNames = [];
 
-                // if (preg_match_all('/\{[^}]*\}/', $route, $matches)) {
-                // if (preg_match_all('/\{(\w+)(:[^}]+)?}/', $route, $matches)) {
                 if (preg_match_all('/\{([^}]+)?}/', $route, $matches)) {
                     $routeNames = $matches[1];
                 }

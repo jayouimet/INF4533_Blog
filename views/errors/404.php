@@ -2,4 +2,4 @@
 
 ?>
 
-<h1>Not Found TEST</h1>
+<h1>404 Not Found</h1>

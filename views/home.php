@@ -16,6 +16,9 @@
             echo "</form>";
             echo "<a href='". Application::$baseUrl ."/addpost'>Add a post.</a>";
         }
-        require dirname(__FILE__) . '/users/showusers.php';
+        echo "<h4>List of users : </h4>";
+        require dirname(__FILE__) . '/users/showUsers.php';
+        echo "<h4>List of posts : </h4>";
+        require dirname(__FILE__) . '/posts/showPosts.php';
     ?>
 </h3>

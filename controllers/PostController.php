@@ -39,15 +39,18 @@
             if (!AuthProvider::isAuthed())
                 return $response->redirect('/');
             /* We try to save the post sent from the request.body */
-            $postModel = new Post();
-            $postModel->loadData($request->getBody());
+            $user = AuthProvider::getSessionObject();
+            $post = new Post();
+            $post->loadData($request->getBody());
 
-            if($postModel->validate()){
-                $response->redirect('/');
+            if($post->validate()){
+                $user->posts[] = $post;
+                $user->upsert();
+                $response->redirect('/posts/' . $post->getId());
             }
 
             $params = [
-                'model' => $postModel
+                'model' => $post
             ];
             return $this->render('posts/addPost', $params);
         }

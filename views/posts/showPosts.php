@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <th>Author ID</th>
+        <th>Author</th>
         <th>Title</th>
         <th>Posted Image</th>
         <th>Created at</th>
@@ -8,17 +8,21 @@
     </tr>
 
     <?php
+        require_once dirname(__FILE__) . '/../../src/Application.php';
+
         foreach($posts as $post){
             echo "<tr>";
 
+            $post->fetch();
+
             echo sprintf("
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
             ",
-            $post->user_id,
+            $post->user->username,
             $post->title,
             $post->post_image ?? null,
             $post->created_at,
