@@ -17,20 +17,7 @@
         public Post $post;
         public User $user;
 
-        /* Get all the post from this user */
-        /*public function fetch() {
-            if (isset($posts))
-                $this->posts = array_merge(array_filter($this->posts, "newElem"), Post::get(['user_id' => $this->getId()]));
-            else 
-                $this->posts =  Post::get(['user_id' => $this->getId()]);
-        }*/
-
         protected static function relations(): array {
-            // For a relation, we create a DatabaseRelation object and give it values for:
-            // The attribute name
-            // The table name in the database
-            // The foreign key name
-            // The type of relationship
             return [
                 new DatabaseRelation("post", Post::class, "post_id", DatabaseRelationship::MANY_TO_ONE),
                 new DatabaseRelation("user", User::class, "user_id", DatabaseRelationship::MANY_TO_ONE),

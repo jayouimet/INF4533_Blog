@@ -24,6 +24,12 @@
         /**
          * Get all relations of this table in the database
          *
+         * For a relation, we create a DatabaseRelation object and give it values for:
+         * The attribute name
+         * The table name in the database
+         * The foreign key name
+         * The type of relationship
+         * 
          * @return array Array of table that has relations to this table
          */
         abstract protected static function relations(): array;
@@ -48,10 +54,19 @@
             $this->id = $id;
         }
 
+        /**
+         * Function to get the relations attribute of a Model in the database.
+         *
+         * @return void
+         */
         public function fetch() {
             $relations = static::relations();
+            // Depending on the relationship of the field, we will process it differently.
             foreach ($relations as $relation) {
+                // If the relationship is 1 - *
                 if ($relation->relationship === DatabaseRelationship::ONE_TO_MANY) {
+                    // If the attribute is already set, get all new elements (not in database) and merge them 
+                    // with the relations values from the database.
                     if (isset($this->{$relation->attrName})) {
                         $newElems = [];
                         foreach($this->{$relation->attrName} as $e) {
@@ -61,9 +76,12 @@
                         }
                         $this->{$relation->attrName} = array_merge($newElems, $relation->class::get([$relation->fkAttr => $this->getId()]));
                     }
+                    // Else, only get the relations values from the database.
                     else 
                         $this->{$relation->attrName} = $relation->class::get([$relation->fkAttr => $this->getId()]);
                 }
+                // If the relationship is * - 1 and the attribute is not set in the model or the attribute is already in the database
+                // get the value of the relation and put it into the model.
                 if ($relation->relationship === DatabaseRelationship::MANY_TO_ONE) {
                     if (!isset($this->{$relation->attrName}) || $this->{$relation->attrName}->getId() !== 0) {
                         $this->{$relation->attrName} = $relation->class::getOne(['id' => $this->{$relation->fkAttr}]);

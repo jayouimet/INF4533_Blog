@@ -47,6 +47,11 @@ class AuthProvider {
         return $_SESSION[AuthProvider::$keyID];
     }
 
+    /**
+     * Check if something is authenticated.
+     *
+     * @return boolean
+     */
     public static function isAuthed() {
         return isset($_SESSION[AuthProvider::$keyID]);
     }

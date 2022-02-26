@@ -128,7 +128,7 @@ abstract class Model
     }
 
     /**
-     * To get the first error in the Model
+     * To get the first error of a specific attribute in the Model.
      *
      * @param string $attribute
      * @return string
