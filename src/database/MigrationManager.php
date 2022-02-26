@@ -49,6 +49,9 @@
             }
         }
 
+        // We create the migration table if it doesn't exist, 
+        // this is where we keep the migration history
+        // so we do not execute the same migration twice
         private function createMigrationsTable() {
             $conn = $this->db->getConnection();
 
@@ -68,6 +71,7 @@
             }
         }
 
+        // Get all migrations that have already been applied from the migration table
         private function getAppliedMigrations() {
             $conn = $this->db->getConnection();
 
