@@ -28,7 +28,7 @@
             return $this->render('comments/showcomments', $params);
         }
 
-        public function postAddComment(Request $request, Response $response) {
+        public function postAddComment(Request $request, Response $response) { //la ligne permet de pouvoir envoyer un commentaire avec un formulaire
             if (!AuthProvider::isAuthed())
                 return $response->redirect('/');
             $body = $request->getBody();
@@ -46,7 +46,7 @@
             return $this->render('comments/addcomment', $params);
         }
 
-        public function postComment(Request $request, Response $response) {
+        public function postComment(Request $request, Response $response) { //la ligne permet d'afficher les commentaires
             if (!AuthProvider::isAuthed())
                 return $response->redirect('/');
 
