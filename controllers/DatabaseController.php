@@ -17,7 +17,7 @@
                 'name' => "Migrated up"
             ];
 
-            return $this->render('home', $params);
+            return $this->render('migrationPage', $params);
         }
 
         public function getDown(Request $request, Response $response) {
@@ -27,7 +27,7 @@
                 'name' => "Migrated down"
             ];
 
-            return $this->render('home', $params);
+            return $this->render('migrationPage', $params);
         }
     }
 ?>
