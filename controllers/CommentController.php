@@ -55,7 +55,7 @@
             $body = $request->getBody();
             
             $user = AuthProvider::getSessionObject();
-            $post_id = $id = $request->getRouteParam('post_id');
+            $post_id = $request->getRouteParam('post_id');
             
             $comment = new Comment();
 
