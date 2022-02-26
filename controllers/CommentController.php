@@ -13,18 +13,18 @@
 
             $body = $request->getBody(); //permet de sélectionner le body de la requête
             // Qui est connecté?
-            $user = AuthProvider::getSessionObject(); //vérifie quel user est connecté
+            $user = AuthProvider::getSessionObject(); //entrepose temporairement quel user est connecté
             // /posts/{post_id} <--- from there
-            $post_id = $request->getRouteParam('post_id'); //sélectionne la route depuis /posts/{post_id} pour afficher la bonne page 
+            $post_id = $request->getRouteParam('post_id'); //sélectionne le {post_id} depuis la route /posts/{post_id} pour afficher la bonne page 
             $comment = new Comment(); //pour créer un nouveau commentaire
             $comment->user_id = $user->getId(); //pour assigner les infos 
             $comment->post_id = $post_id;
             $comment->body = $body["comment"];
 
             // variable à envoyer à la page
-            $params = []; //$ indique que c'est le nom d'une variable qui doit être envoyée à une page
+            $params = []; //$ indique que le tableau de variable qui doit être envoyée à une page
             // upsert => update or insert
-            if (!$comment->upsert()) {
+            if (!$comment->upsert()) { //si rien n'est update ou ajouté un message d'erreur affiche
                 $params['errorMessageId'] = 'unexpectedErrorAddComment'; 
             }
             // On redirige vers une route (remarque l'utilisation de $post_id)
