@@ -23,6 +23,7 @@
             $this->migrate($direction);
         }
 
+
         private function migrate($direction) {
             $mig = iterator_to_array($this->getMigrations($direction));
 
@@ -38,6 +39,8 @@
             $this->executeMigrations($mig, $direction);
         }
 
+        // Returns an iterator of all the migrations matching the direction
+        // Ordered based on the direction of the migrations
         private function getMigrations($direction) {
             foreach (scandir(dirname(__FILE__) . "/migrations", $direction === 'up' ? SCANDIR_SORT_ASCENDING : SCANDIR_SORT_DESCENDING) as $dir) {
                 if ($dir !== '.' && $dir !== '..') {

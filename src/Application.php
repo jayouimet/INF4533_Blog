@@ -7,6 +7,7 @@
     class Application {
         /* Variables needed to run the APP */
         public static string $ROOT_DIR;
+        // Base url relative to the server domain
         public static string $baseUrl = '';
         public Router $router;
         public Request $request;
@@ -21,11 +22,12 @@
         /**
          * The constructor of the APP.
          *
-         * @param mixed $rootPath   The root path for the app.
+         * @param mixed $rootPath   The root directory for the app.
          * @param array $config     The config map.
          */
         public function __construct($rootPath, $config = []) {
             self::$ROOT_DIR = $rootPath;
+            // A singleton to access the app globally
             self::$app = $this;
             $this->request = new Request();
             $this->response = new Response();

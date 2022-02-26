@@ -16,11 +16,11 @@
             $post->fetch();
 
             echo sprintf("
-                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
-                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
-                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
-                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
-                <td><a href=" . Application::$baseUrl . "/posts/" . $post->user_id . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->getId() . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->getId() . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->getId() . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->getId() . ">%s</a></td>
+                <td><a href=" . Application::$baseUrl . "/posts/" . $post->getId() . ">%s</a></td>
             ",
             $post->user->username,
             $post->title,
