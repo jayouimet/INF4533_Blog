@@ -53,6 +53,7 @@
         }
 
         public function login(Request $request, Response $response) { //permet d'entrer ses infos 
+            // Correction: Si déjà connecté
             if (AuthProvider::isAuthed()) { //si les infos sont bonnes, ça connecte le user
                 return $response->redirect('/'); //redirige à la page d'accueil
             }
@@ -64,7 +65,7 @@
             }
 
             try {
-                $user = User::login($body['username'], $body['password']); //fait 
+                $user = User::login($body['username'], $body['password']); //connect l'utilisateur à l'aide de ses infos 
 
                 if ($user) {
                     return $response->redirect('/');
