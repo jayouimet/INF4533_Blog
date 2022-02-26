@@ -1,8 +1,7 @@
 <form action="<?php
     require_once dirname(__FILE__) . '/../../../src/Application.php';
-    echo Application::$baseUrl;
-?>
-/addpost" method="POST">
+    echo Application::$baseUrl;?>
+    /addpost" method="POST">
     <label for="title">Title</label>            
     <input placeholder="title" name="title" type="text" required minlength='1'/><br>
     <label for="post_image">Image</label>       

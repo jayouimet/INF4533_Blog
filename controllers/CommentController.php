@@ -19,7 +19,7 @@
             $comment->post_id = $post_id;
             $comment->body = $body["comment"];
 
-            $params = []; //$ indique le tableau de variable qui doit être envoyée à une page
+            $params = ["comment" => $comment]; //$ indique le tableau de variable qui doit être envoyée à une page
             if (!$comment->upsert()) { //si rien n'est update ou ajouté un message d'erreur affiche
                 $params['errorMessageId'] = 'unexpectedErrorAddComment'; 
             }

@@ -23,7 +23,7 @@
                 return $response->redirect('/');
             }
             // Otherwise we render the registration page
-            return $this->render('pages/users/register', []);
+            return $this->render('pages/users/register', ["user" => new User()]);
         }
 
         /**

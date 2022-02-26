@@ -44,7 +44,7 @@
         public function rules(): array {
             // The model rules, they will be checked using the validate() function
             return [
-                'email' => [Rules::REQUIRED],
+                'email' => [Rules::REQUIRED, Rules::EMAIL],
                 'username' => [Rules::REQUIRED],
                 'firstname' => [],
                 'lastname' => [],

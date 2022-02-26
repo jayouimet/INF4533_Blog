@@ -23,7 +23,7 @@
             /* Create a post model to then give it to the registration form */
             $postModel = new Post();
             $params = [
-                'model' => $postModel
+                'post' => $postModel
             ];
             return $this->render('pages/posts/createPost', $params);
         }
@@ -64,7 +64,8 @@
             }
             $post->fetch();
             $params = [
-                'post' => $post
+                'post' => $post,
+                'comment' => new Comment()
             ];
             return $this->render('pages/posts/showPost', $params);
         }

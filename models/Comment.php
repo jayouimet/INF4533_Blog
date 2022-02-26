@@ -29,7 +29,7 @@
 
         public function rules(): array {
             return [
-                'body' => [Rules::REQUIRED],
+                'body' => [Rules::REQUIRED, [Rules::MIN, 'min' => 1]],
             ];
         }
 

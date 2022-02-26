@@ -135,7 +135,7 @@ abstract class Model
      */
     public function getFirstError(string $attribute) : string
     {
-        return $this->errors[$attribute][0] ?? false;
+        return $this->errors[$attribute][0] ?? "";
     }
 }
 ?>
