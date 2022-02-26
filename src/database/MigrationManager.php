@@ -25,8 +25,9 @@
 
 
         private function migrate($direction) {
+            // We store the migrations array from the folder into $mig
             $mig = iterator_to_array($this->getMigrations($direction));
-
+            // Filter by executed migrations depending on the direction
             if ($direction === 'up') {
                 $appliedMig = iterator_to_array($this->getAppliedMigrations());
                 $mig = array_diff($mig, $appliedMig);
@@ -35,7 +36,7 @@
                 $appliedMig = iterator_to_array($this->getAppliedMigrations());
                 $mig = array_intersect($mig, $appliedMig);
             }
-
+            // Execute the migrations
             $this->executeMigrations($mig, $direction);
         }
 
@@ -91,14 +92,21 @@
             }
         }
 
+        // We execute the migrations from the array of migrations, in the direction 
         private function executeMigrations($toApplyMig, $direction) {
+            // Get the path to the migrations
             $path = dirname(__FILE__) . "/migrations/";
             $conn = $this->db->getConnection();
             
+            // For all migrations to apply
             foreach ($toApplyMig as $mig) {
+                // We create a search string array for all folders
                 $migFolders = glob($path . $mig . "*");
+                // For each folder name
                 foreach ($migFolders as $folder) {
+                    // We get the content of the file in the correct direction
                     $query = file_get_contents($folder . "/$direction.sql");
+                    // If we are migrating up, we execute the query, then we insert the migration status to the database
                     if ($direction === 'up' && $result = $conn->query($query)) {
                         $query = "INSERT INTO migrations (migration) VALUES ('" . $conn->real_escape_string($mig) . "');"; 
 
@@ -112,6 +120,7 @@
 
                         echo "Migration $direction : " . $mig . " applied." . PHP_EOL;
                     }
+                    // If we are migrating down, we execute the query, then we delete the related migration status to the database
                     if ($direction === 'down' && $result = $conn->query($query)) {
                         $query = "DELETE FROM migrations WHERE migration = '" . $conn->real_escape_string($mig) . "';"; 
 
@@ -125,13 +134,14 @@
 
                         echo "Migration $direction : " . $mig . " applied." . PHP_EOL;
                     }
+                    // In case of an error we stop the execution (we do not apply future migrations)
                     if ($conn->error) {
                         echo "An error occured trying to apply $direction migration : " . $mig . PHP_EOL;
                         die;
                     }
                 }
             }
-
+            // If everything executed we tell the user we are up to date
             echo "Migrations up to date.";
         }
     }
