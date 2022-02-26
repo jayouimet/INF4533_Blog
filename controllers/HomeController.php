@@ -2,6 +2,7 @@
     require_once dirname(__FILE__) . '/../src/Controller.php';
     require_once dirname(__FILE__) . '/../src/Request.php';
     require_once dirname(__FILE__) . '/../src/Response.php';
+    require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
 
     require_once dirname(__FILE__) . '/../models/User.php';
 

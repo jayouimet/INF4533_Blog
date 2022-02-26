@@ -50,3 +50,18 @@ body {
     margin-bottom: auto;
     margin-right: 30px;
 }
+
+.navbar-right-container {
+    display:flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar-right-container div:only-child {
+    margin-left: auto;
+}
+
+.navbar-username {
+    margin: auto;
+}
