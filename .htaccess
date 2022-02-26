@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteCond %{REQUEST_URI} !\.(?:css|js|jpe?g|gif|png)$ [NC]
     RewriteRule ^(.*)$ public/index.php
 </IfModule>
