@@ -13,18 +13,12 @@
         public string $created_at;
         public string $updated_at;
 
+        // Object relationship with user
         public User $user;
+        // Array relationship with comments
         public array $comments;
 
-        public function user() : User {
-            return User::getOne(['id' => $this->user_id]);
-        }
-
-        /*public function fetch() {
-            if (!isset($this->user) || $this->user->getId() !== 0)
-                $this->user = User::getOne(['id' => $this->user_id]);
-        }*/
-
+        // See User.php for comments
         protected static function relations(): array {
             return [
                 new DatabaseRelation("user", User::class, "user_id", DatabaseRelationship::MANY_TO_ONE),

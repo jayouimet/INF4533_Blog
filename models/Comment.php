@@ -14,9 +14,11 @@
         public string $updated_at = "";
         public string $created_at = "";
 
+        // Object relationship with post and user
         public Post $post;
         public User $user;
 
+        // See User.php for comments
         protected static function relations(): array {
             return [
                 new DatabaseRelation("post", Post::class, "post_id", DatabaseRelationship::MANY_TO_ONE),

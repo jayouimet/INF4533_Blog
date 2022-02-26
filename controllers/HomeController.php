@@ -14,17 +14,13 @@
          * @return void
          */
         public function getHome(Request $request, Response $response) {
+            // We get the current authentified user
             $user = AuthProvider::getSessionObject();
             $params = [
                 'currentUser' => $user,
                 'users' => User::get(),
                 'posts' => Post::get()
             ];
-
-            // $_SESSION["test"] = "testSession";
-            /*if (isset($_SESSION['test'])) {
-                unset($_SESSION['test']);
-            }*/
 
             return $this->render('pages/home', $params);
         }

@@ -11,6 +11,7 @@
         /* Database attributes for User */
         public string $email = '';
         public string $username = '';
+        // We put ? in front of the type to make it nullable
         public ?string $firstname = '';
         public ?string $lastname = '';
         public string $password = '';
@@ -23,16 +24,9 @@
         public ?string $profile_picture = '';
         public ?string $status_message = '';
 
+        // array relation with posts and comments
         public array $posts;
         public array $comments;
-
-        /* Get all the post from this user */
-        /*public function fetch() {
-            if (isset($posts))
-                $this->posts = array_merge(array_filter($this->posts, "newElem"), Post::get(['user_id' => $this->getId()]));
-            else 
-                $this->posts =  Post::get(['user_id' => $this->getId()]);
-        }*/
 
         protected static function relations(): array {
             // For a relation, we create a DatabaseRelation object and give it values for:
@@ -48,6 +42,7 @@
 
 
         public function rules(): array {
+            // The model rules, they will be checked using the validate() function
             return [
                 'email' => [Rules::REQUIRED],
                 'username' => [Rules::REQUIRED],
@@ -61,11 +56,13 @@
 
         protected static function table(): string
         {
+            // The table name in the database
             return 'users';
         }
 
         protected static function attributes(): array
         {
+            // We map the attributes and their type for the database
             return [
                 'username' => DatabaseTypes::DB_TEXT,
                 'email' => DatabaseTypes::DB_TEXT,
@@ -79,6 +76,7 @@
         }
 
         public function register(){
+            // We hash the password and insert the user in the database
             $this->password = password_hash($this->password, PASSWORD_DEFAULT);
             if (parent::insert()) {
                 AuthProvider::login($this);
@@ -88,7 +86,9 @@
         }
 
         public static function login($username, $password) {
+            // We get a user by username
             $result = User::getOne(['username' => $username]);
+            // We compare the password to its hash
             if ($result && password_verify($password, $result->password)) {
                 AuthProvider::login($result);
                 return $result;

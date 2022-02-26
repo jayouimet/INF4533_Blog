@@ -39,6 +39,7 @@
 
     $app->router->set404("errors/404");
 
+    // When calling the route '/' go to home controlle rand execute getUp()
     $app->router->get('/', [HomeController::class, 'getHome']);
 
     $app->router->get('/migrate_up', [DatabaseController::class, 'getUp']);
