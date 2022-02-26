@@ -54,7 +54,7 @@
 
         public function login(Request $request, Response $response) { //permet d'entrer ses infos 
             // Correction: Si déjà connecté
-            if (AuthProvider::isAuthed()) { //si les infos sont bonnes, ça connecte le user
+            if (AuthProvider::isAuthed()) { //si le user s'était déjà connecté auparavant, il peut pas se connecter de nouveau
                 return $response->redirect('/'); //redirige à la page d'accueil
             }
             
