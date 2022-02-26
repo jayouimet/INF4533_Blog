@@ -1,0 +1,3 @@
+INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `email`, `confirmation_code`, `is_active`, `date_of_birth`, `password`, `created_at`, `updated_at`, `profile_picture`, `status_message`) VALUES
+(1, 'jayouimet', 'jay', 'sama', 'jay@sama.jp', NULL, 0, '2022-02-02', '$2y$10$KcAIBFt82tq87VMUVfvel.ujvkx/4R//xxC8Zb75W31n9MpFJBVTm', '2022-02-25 23:05:53', '2022-02-25 23:05:53', NULL, NULL),
+(2, 'darkxys', 'francis', 'hotbread', 'frank@toast.com', NULL, 0, '2022-02-07', '$2y$10$24KwL9Z7acEzns1HS/hXDOewXL4.Ic3WcWO4hjK8pDyxJkgWt6rS.', '2022-02-25 23:12:08', '2022-02-25 23:12:08', NULL, NULL);
