@@ -32,9 +32,7 @@
             if (!AuthProvider::isAuthed())
                 return $response->redirect('/');
             $body = $request->getBody();
-            /* TO DO ROSALIE : s'assurer que le body est une string > 0, si < 0 
-            mettre un message d'erreur, avec un if, else, mettre "Veuillez entrer 
-            un commentaire avant de soumettre" */
+   
             $comment = new Comment();
             $comment->user_id = 1;
             $comment->post_id = 1;
