@@ -45,8 +45,9 @@
     $app->router->get('/migrate_down', [DatabaseController::class, 'getdown']);
 
     // User related routes
-    $app->router->get('/register', [UserController::class, 'getRegister']);
+    $app->router->get('/register', [UserController::class, 'getRegister']); 
     $app->router->post('/register', [UserController::class, 'postRegister']);
+    /* on ajoute la même méthode pour les 2 dernières lignes, mais on leur fait faire une action différente*/
     $app->router->post('/logout', [UserController::class, 'postLogout']);
     $app->router->get('/login', [UserController::class, 'login']);
     $app->router->post('/login', [UserController::class, 'login']);
@@ -58,6 +59,6 @@
 
     // Comments related routes
     $app->router->post('/addcomment/{post_id}', [CommentController::class, 'postComment']);
-
+    //{id} et {post_id} sont remplaçés par le id/post_id voulu afin d'afficher la page correspondante
     $app->run();
 ?>
