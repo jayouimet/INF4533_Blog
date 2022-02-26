@@ -16,6 +16,7 @@
         public function getHome(Request $request, Response $response) {
             // We get the current authentified user
             $user = AuthProvider::getSessionObject();
+            // Params represent the variables accessible through the file we render
             $params = [
                 'currentUser' => $user,
                 'users' => User::get(),

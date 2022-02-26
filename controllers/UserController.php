@@ -18,10 +18,11 @@
          * @return void
          */
         public function getRegister(Request $request, Response $response) {
+            // Is the user is authentified (connected) we redirect him to the home page           
             if (AuthProvider::isAuthed()) {
                 return $response->redirect('/');
             }
-            
+            // Otherwise we render the registration page
             return $this->render('pages/users/register', []);
         }
 
