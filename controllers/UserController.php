@@ -33,9 +33,9 @@
          * @param Response $response The response
          * @return void
          */
-        public function postRegister(Request $request, Response $response) {
-            if (AuthProvider::isAuthed()) {
-                return $response->redirect('/');
+        public function postRegister(Request $request, Response $response) { //permet d'entrer ses infos pour se crée un compte
+            if (AuthProvider::isAuthed()) { 
+                return $response->redirect('/'); //redirige à la page d'accueil
             }
             
             /* We try to save the user sent from the request.body */
@@ -52,9 +52,9 @@
             return $this->render('pages/users/register', $params);
         }
 
-        public function login(Request $request, Response $response) {
-            if (AuthProvider::isAuthed()) {
-                return $response->redirect('/');
+        public function login(Request $request, Response $response) { //permet d'entrer ses infos 
+            if (AuthProvider::isAuthed()) { //si les infos sont bonnes, ça connecte le user
+                return $response->redirect('/'); //redirige à la page d'accueil
             }
             
             /* We try to save the user sent from the request.body */
@@ -64,25 +64,25 @@
             }
 
             try {
-                $user = User::login($body['username'], $body['password']);
+                $user = User::login($body['username'], $body['password']); //fait 
 
                 if ($user) {
                     return $response->redirect('/');
                 }
 
-                throw new Exception("Username/password did not match.");
+                throw new Exception("Username/password did not match."); //crée un exception que les infos rentrées ne sont pas les bonnes
             }
-            catch (Exception $e) {
+            catch (Exception $e) { //si l'exception est rencontré, ça affiche un message d'erreur
                 $params = [
-                    'errorMessageId' => "invalidCredentials"
+                    'errorMessageId' => "invalidCredentials" 
                 ];
-                return $this->render('pages/users/login', $params);
+                return $this->render('pages/users/login', $params); //redirige à la page de connection
             }           
         }
 
-        public function postLogout(Request $request, Response $response) {
+        public function postLogout(Request $request, Response $response) { //déconnecte le user de son compte
             AuthProvider::logout();
-            return $response->redirect('/');
+            return $response->redirect('/'); //redirige à la page d'accueil
         }
     }
 ?>
