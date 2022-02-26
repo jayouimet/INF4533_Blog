@@ -10,7 +10,7 @@
     <?php
         echo "<link rel='stylesheet' href='" .Application::$baseUrl  . "/public/style/style.css' crossorigin='anonymous'>";
     ?>
-    <title>Document</title>
+    <title>Blog</title>
 </head>
 <body>
     <div class="container">
