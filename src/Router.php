@@ -30,7 +30,7 @@
          * This method creates a route on a specific $path using the method GET.
          *
          * @param string $path
-         * @param mixed $callback
+         * @param array $callback
          * @return void
          */
         public function get($path, $callback) {
@@ -41,7 +41,7 @@
          * This method creates a route on a specific $path using the method POST.
          *
          * @param string $path
-         * @param mixed $callback
+         * @param array $callback
          * @return void
          */
         public function post($path, $callback) {
