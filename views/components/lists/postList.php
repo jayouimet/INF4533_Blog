@@ -1,4 +1,4 @@
-<table>
+<table id="posts">
     <tr>
         <th>Author</th>
         <th>Title</th>
