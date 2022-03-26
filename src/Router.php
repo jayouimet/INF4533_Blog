@@ -151,6 +151,8 @@
             // Get the content from the requested view and put it into the accessed page.
             $layoutContent = $this->layoutContent();
             $viewContent = $this->renderOnlyView($view, $params);
+            $viewSources = $this->renderOnlySources($view);
+            $layoutContent = str_replace('{{sources}}', $viewSources, $layoutContent);
             return str_replace('{{content}}', $viewContent, $layoutContent);
         }
 
@@ -184,7 +186,13 @@
         private function renderOnlyView($view, $params) {
             extract($params, EXTR_OVERWRITE);
             ob_start();
-            include_once Application::$ROOT_DIR . "/views/$view.php";
+            include_once Application::$ROOT_DIR . "/views/$view/content.php";
+            return ob_get_clean();
+        }
+
+        private function renderOnlySources($view) {
+            ob_start();
+            include_once Application::$ROOT_DIR . "/views/$view/sources.php";
             return ob_get_clean();
         }
     }

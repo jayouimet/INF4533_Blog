@@ -335,7 +335,7 @@
                 $typeString = implode('', $types);
                 
                 // Add conditions to query
-                $query .= " WHERE " . implode(' = ?,', $columns) . " = ?";
+                $query .= " WHERE " . implode(' = ? AND ', $columns) . " = ?";
 
                 // If there's a limit, add that to the query
                 if ($limit)

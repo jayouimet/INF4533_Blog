@@ -5,6 +5,7 @@
     require_once dirname(__FILE__) . '/../controllers/DatabaseController.php';
     require_once dirname(__FILE__) . '/../controllers/CommentController.php';
     require_once dirname(__FILE__) . '/../controllers/PostController.php';
+    require_once dirname(__FILE__) . '/../controllers/LikeController.php';
 
     session_start();
     
@@ -61,5 +62,9 @@
     // Comments related routes
     $app->router->post('/addcomment/{post_id}', [CommentController::class, 'postComment']);
     //{id} et {post_id} sont remplaçés par le id/post_id voulu afin d'afficher la page correspondante
+
+    // Route for liking/disliking a post
+    $app->router->post('/posts/like_post', [LikeController::class, 'postLikePost']);
+
     $app->run();
 ?>

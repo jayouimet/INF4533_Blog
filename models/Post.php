@@ -3,6 +3,7 @@
     require_once dirname(__FILE__) . "/../src/database/DatabaseRelation.php";
     require_once dirname(__FILE__) . "/../src/database/DatabaseEnums.php";
     require_once dirname(__FILE__) . '/User.php';
+    require_once dirname(__FILE__) . '/Like.php';
 
     class Post extends DatabaseModel {
         /* Database attributes for the table posts */
@@ -17,12 +18,14 @@
         public User $user;
         // Array relationship with comments
         public array $comments;
+        public array $likes;
 
         // See User.php for comments
         protected static function relations(): array {
             return [
                 new DatabaseRelation("user", User::class, "user_id", DatabaseRelationship::MANY_TO_ONE),
-                new DatabaseRelation("comments", Comment::class, "post_id", DatabaseRelationship::ONE_TO_MANY),            
+                new DatabaseRelation("comments", Comment::class, "post_id", DatabaseRelationship::ONE_TO_MANY), 
+                new DatabaseRelation("likes", Like::class, "post_id", DatabaseRelationship::ONE_TO_MANY),            
             ];
         }
 

@@ -63,9 +63,22 @@
                 return $this->render('errors/404', []);
             }
             $post->fetch();
+
+            $user = AuthProvider::getSessionObject();
+            $postLiked = false;
+            if ($user) {
+                $user->fetch();
+                foreach ($user->likes as $like) {
+                    if ($like->post_id == $id) {
+                        $postLiked = true;
+                    }
+                }
+            }
+
             $params = [
                 'post' => $post,
-                'comment' => new Comment()
+                'comment' => new Comment(),
+                'postLiked' => $postLiked
             ];
             return $this->render('pages/posts/showPost', $params);
         }

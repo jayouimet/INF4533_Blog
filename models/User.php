@@ -6,6 +6,7 @@
     require_once dirname(__FILE__) . '/../src/providers/AuthProvider.php';
 
     require_once dirname(__FILE__) . '/Post.php';
+    require_once dirname(__FILE__) . '/Like.php';
 
     class User extends DatabaseModel {
         /* Database attributes for User */
@@ -27,6 +28,7 @@
         // array relation with posts and comments
         public array $posts;
         public array $comments;
+        public array $likes;
 
         protected static function relations(): array {
             // For a relation, we create a DatabaseRelation object and give it values for:
@@ -37,6 +39,7 @@
             return [
                 new DatabaseRelation("posts", Post::class, "user_id", DatabaseRelationship::ONE_TO_MANY),
                 new DatabaseRelation("comments", Comment::class, "user_id", DatabaseRelationship::ONE_TO_MANY),
+                new DatabaseRelation("likes", Like::class, "user_id", DatabaseRelationship::ONE_TO_MANY),
             ];
         }
 
