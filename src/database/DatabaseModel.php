@@ -153,6 +153,9 @@
             $statement->execute();
 
             $this->id = $statement->insert_id;
+            
+            if ($this->id == 0)
+                return false;
 
             $this->upsertArrayChilds();
 

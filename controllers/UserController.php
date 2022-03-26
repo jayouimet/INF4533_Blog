@@ -42,13 +42,18 @@
             $user = new User();
 
             $user->loadData($request->getBody());
-            
+
+            $params = [];
+
             if($user->validate() && $user->register()){
                 $response->redirect('/');
+            } else {
+                $params['errors'] =  [
+                    'username' => 'Username already in use.'
+                ];
+                $params['user'] = $user;
             }
-            $params = [
-                'user' => $user
-            ];
+
             return $this->render('pages/users/register', $params);
         }
 

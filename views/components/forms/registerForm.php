@@ -7,7 +7,13 @@
         <tr>
             <td>Username</td>
             <td><input type='text' name='username' required minlength='1'></td>
-            <?php if($user->getFirstError("username") != "") echo "<td>". $user->getFirstError("username") ."</td>" ?>
+            <?php 
+                if($user->getFirstError("username") != "") 
+                    echo "<td>". $user->getFirstError("username") ."</td>";
+                else if (isset($errors) && $errors["username"]) {
+                    echo "<td>". $errors["username"] ."</td>";
+                }
+            ?>
         </tr>
         <tr>
             <td>Firstname</td>

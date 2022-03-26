@@ -19,8 +19,7 @@
                     echo "<input value='Login' type='submit'>";
                     echo "</form>";
                     echo "</div>";
-                }
-                else {
+                } else {
                     echo "<div class='navbar-username'>" . $navBarUserSession->username . "</div>";
                     echo "<div class='login-div'>";
                     echo "<form action='". Application::$baseUrl ."/logout' method='post'>";
