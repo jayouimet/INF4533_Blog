@@ -20,7 +20,7 @@
                     echo "</form>";
                     echo "</div>";
                 } else {
-                    echo "<div class='navbar-username'>" . $navBarUserSession->username . "</div>";
+                    echo "<div class='navbar-username'><a href='" . Application::$baseUrl . "/profile'>" . $navBarUserSession->username . "</a></div>";
                     echo "<div class='login-div'>";
                     echo "<form action='". Application::$baseUrl ."/logout' method='post'>";
                     echo "<input value='Logout' type='submit'>";

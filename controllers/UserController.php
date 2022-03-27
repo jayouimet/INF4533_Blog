@@ -90,5 +90,48 @@
             AuthProvider::logout();
             return $response->redirect('/'); //redirige à la page d'accueil
         }
+
+        public function getProfile(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed()) {
+                return $response->redirect('/login');
+            }
+
+            $user = AuthProvider::getSessionObject();
+
+            $params = [
+                "user" => $user
+            ];
+
+            return $this->render('pages/users/profile', $params);
+        }
+
+        public function postProfile(Request $request, Response $response) {
+            if (!AuthProvider::isAuthed()) {
+                echo json_encode(["errors" => ["unexpectedError"]]);
+                return;
+            }
+
+            $user = AuthProvider::getSessionObject();
+            $body = $request->getBody();
+
+            if (isset($body['email']))
+                $user->email = $body['email'];
+            if (isset($body['firstname']))
+                $user->firstname = $body['firstname'];
+            if (isset($body['lastname']))
+                $user->lastname = $body['lastname'];
+            if (isset($body['status_message']))
+                $user->status_message = $body['status_message'];
+
+            if (!$user->update()) {
+                echo json_encode(["errors" => ["unexpectedError"]]);
+                return;
+            }
+
+            echo json_encode([
+                ["result" => "success"]
+            ]);
+            return;
+        }
     }
 ?>

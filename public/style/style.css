@@ -37,7 +37,7 @@ body {
 .navbar-left {
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 30px;
+    margin-left: 3vw;
     width: 75%
 }
 
@@ -48,7 +48,7 @@ body {
     flex-direction: column;
     margin-top: auto;
     margin-bottom: auto;
-    margin-right: 30px;
+    margin-right: 3vw;
 }
 
 .navbar-right-container {

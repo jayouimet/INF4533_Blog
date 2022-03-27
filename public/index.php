@@ -66,5 +66,8 @@
     // Route for liking/disliking a post
     $app->router->post('/posts/like_post', [LikeController::class, 'postLikePost']);
 
+    $app->router->get('/profile', [UserController::class, 'getProfile']);
+    $app->router->post('/update_profile', [UserController::class, 'postProfile']);
+
     $app->run();
 ?>

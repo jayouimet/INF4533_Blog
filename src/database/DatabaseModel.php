@@ -153,7 +153,7 @@
             $statement->execute();
 
             $this->id = $statement->insert_id;
-            
+
             if ($this->id == 0)
                 return false;
 
@@ -301,6 +301,10 @@
             // Bind params and execute the statement
             $statement->bind_param($typeString, ...$values);
             $statement->execute();
+
+            if ($conn->errno) {
+                return false;
+            }
 
             $this->upsertArrayChilds();
 

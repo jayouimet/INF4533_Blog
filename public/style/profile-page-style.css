@@ -1,0 +1,39 @@
+.profile-page-container {
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+.information-container {
+    width: 40vw;
+    min-width: 400px;
+}
+
+.label-input-container {
+    margin-top: .5em;
+    margin-bottom: .5em;
+    display: flex;
+    justify-content: space-between;
+    min-width: 400px;
+}
+
+.label-input-container label {
+    width: 30%;
+}
+
+.label-input-container input {
+    width: 50%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 400px;
+}
+
+.button-container button {
+    width: 50%;
+    margin-left: 4px;
+    margin-right: 4px;
+}
