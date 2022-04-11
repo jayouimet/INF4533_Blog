@@ -1,0 +1,26 @@
+.login-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.background-img {
+    background-image: url("../img/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: inherit;
+    opacity: 90%;
+}
+
+.login-form-container {
+    border: 1px solid #212529;
+    border-radius: 5%;
+    width: 30vw;
+    height: 50vh;
+    margin: auto;
+    background-color: #9A879D;
+}
