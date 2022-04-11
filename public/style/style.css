@@ -65,3 +65,10 @@ body {
 .navbar-username {
     margin: auto;
 }
+
+.content-container {
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
+}

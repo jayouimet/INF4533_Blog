@@ -3,7 +3,7 @@
     require dirname(__FILE__) . '/../../../components/common/navbar.php';
 ?>
 
-<div class="profile-page-container">
+<div class="content-container">
     <div class="content-header-container">
         <h1><?php echo $user->username ?></h1>
     </div>
