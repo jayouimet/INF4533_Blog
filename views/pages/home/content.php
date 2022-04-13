@@ -4,7 +4,7 @@ require dirname(__FILE__) . '/../../components/common/navbar.php';
 ?>
 <div class="row">
     <!-- List of posts -->
-    <div class="col-3">
+    <div class="col-3 border-right">
         <div class="row">
             <h4 class="text-center col-1" style="margin:0.5vmax;">List of posts</h4>
         </div>

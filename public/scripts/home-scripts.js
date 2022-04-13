@@ -4,8 +4,8 @@ const searchTitle = document.querySelector("#searchTitle");
 const searchBody = document.querySelector("#searchBody");
 const searchBarPosts = document.querySelector("#search_bar_posts");
 const searchBarUsers = document.querySelector("#search_bar_users");
-const posts = document.querySelectorAll("#posts tr + tr");
-const users = document.querySelectorAll("div#users > div");
+const posts = document.querySelectorAll("div#posts > a");
+const users = document.querySelectorAll("div#users > a > div.col-3");
 
 
 // Add an event listener when they are checked or for the searchbar, when the input changes
@@ -25,21 +25,21 @@ function searchBarInput() {
         // Put all posts not hidden by default
         el.hidden = false;
         isHidden = true;
-
+        console.log(posts);
         // If there's nothing in the search query, just go to the next iteration
         if (param === "") return;
-
+        
         // If the user checked the User search checkbox, it will hide/un-hide if it contains the search query string in the username
         if (searchUser.checked){
-            isHidden = !el.querySelector("td:first-child a").textContent.includes(param);
+            isHidden = !el.querySelector("div.author > b").textContent.includes(param);
         }
         // If the user checked the Title search checkbox, it will hide/un-hide if it contains the search query string in the title
         if (searchTitle.checked){
-            isHidden = (isHidden ? !el.querySelector("td:nth-child(2) a").textContent.includes(param) : false);
+            isHidden = (isHidden ? !el.querySelector("b.title").textContent.includes(param) : false);
         }
         // If the user checked the Body search checkbox, it will hide/un-hide if it contains the search query string in the body
         if (searchBody.checked){
-            isHidden = (isHidden ? !el.querySelector("td:last-child a").textContent.includes(param) : false);
+            isHidden = (isHidden ? !el.querySelector("div.body").textContent.includes(param) : false);
         }
 
         // Put the post hidden or not if it fits the criteria
@@ -50,17 +50,16 @@ function searchBarInput() {
 function searchBarUsersInput(){
     // Get the search parameter in the searchbar
     let param = searchBarUsers.value;
-
+    console.log(users);
     users.forEach(el => {
-        console.log(el);
         // Put all posts not hidden by default
-        el.hidden = false;
+        el.parentElement.hidden = false;
 
         // If there's nothing in the search query, just go to the next iteration
         if (param === "") return;
         
         // Put the user hidden or not if it fits the search query
-        el.hidden = !el.querySelector("b").textContent.includes(param);
+        el.parentElement.hidden = !el.textContent.includes(param);
 
     });
 }

@@ -1,7 +1,3 @@
-#search_bar_posts {
-    width: 20%;
-}
-
 #search_bar_posts,
 #search_bar_users,
 .filters {
@@ -13,20 +9,32 @@
     text-align: center;
 }
 
-.card {
-    margin: auto;
-    border-color: black;
-    border-style: outset;
-    border-radius: 10px;
+.author {
+    color: rgb(130, 130, 130);
+    font-size: 10px;
 }
 
-.card>b {
-    margin: 1vmax;
+.card,
+.card-user {
+    border: 0.5px solid rgba(0, 0, 0, 0.3);
+    margin-bottom: 1vmax;
+    text-decoration: none;
+    color: black;
 }
 
+.border-right {
+    border-right: 0.2px solid black;
+}
+
+.card-user {
+    margin-bottom: 0.3vmax;
+    text-align: center;
+}
+
+#posts,
 #users {
-    display: flex;
-    flex-direction: row;
+    margin-left: 1vmax;
+    margin-right: 1vmax;
 }
 
 .filters {
@@ -44,10 +52,15 @@
     width: 100%;
 }
 
+[hidden] {
+    display: none;
+}
+
 .col-1,
 .col-2,
 .col-3,
-.col-4 {
+.col-4,
+.col-12 {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
@@ -67,4 +80,8 @@
 
 .col-4 {
     flex: 4;
+}
+
+.col-12 {
+    flex: 12;
 }
