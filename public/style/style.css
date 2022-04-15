@@ -31,6 +31,7 @@ body, .container{
     flex-direction: row;
     background-color: #212529;
     color: white;
+    justify-content: center;
 }
 
 .navbar-flex-container a {
@@ -60,7 +61,7 @@ body, .container{
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 3vw;
-    width: 75%
+    width: 75%;
 }
 
 .navbar-right {

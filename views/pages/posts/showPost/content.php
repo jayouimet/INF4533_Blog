@@ -53,6 +53,3 @@ $now = time();
         <?php $comments = $post->comments; require dirname(__FILE__) . '/../../../components/lists/commentList.php'; ?>
     </div>
 </div>
-
-<div><button type='button'> t
-    </button></div>
