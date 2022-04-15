@@ -2,49 +2,80 @@
     require_once dirname(__FILE__) . '/../../../src/Application.php';
 ?>
 
-<form action="<?php echo Application::$baseUrl ?>/register" method='post'>
-    <table>
-        <tr>
-            <td>Username</td>
-            <td><input type='text' name='username' required minlength='1'></td>
-            <?php 
-                if($user->getFirstError("username") != "") 
-                    echo "<td>". $user->getFirstError("username") ."</td>";
-                else if (isset($errors) && $errors["username"]) {
-                    echo "<td>". $errors["username"] ."</td>";
-                }
+<div class="register-form-container">
+    <form class='register-form' action="<?php echo Application::$baseUrl ?>/register" method='post'>
+        <div class="register-form-row">
+            <label for="username">Username</label>
+            <input type='text' name='username' required minlength='1'>
+        </div>
+        <?php 
+            if($user->getFirstError("username") != "") 
+                echo "<div class='error'>". $user->getFirstError("username") ."</div>";
+            else if (isset($errors) && $errors["username"]) {
+                echo "<div class='error'>". $errors["username"] ."</div>";
+            }
+        ?>
+
+        <div class="register-form-row">
+            <label for="firstname">Firstname</label>
+            <input type='text' name='firstname'>
+        </div>
+        <?php 
+            if ($user->getFirstError("firstname") != "") 
+                echo "<div class='error'>". $user->getFirstError("firstname") ."</div>";
+        ?>
+
+        <div class="register-form-row"> 
+            <label for="lastname">Lastname</label>
+            <input type='text' name='lastname'>
+        </div>
+        <?php 
+            if ($user->getFirstError("lastname") != "") 
+                echo "<div class='error'>". $user->getFirstError("lastname") ."</div>"; 
+        ?>
+
+        <div class="register-form-row"> 
+            <label for="email">Email</label>
+            <input type='text' name='email'>
+        </div>
+        <?php 
+            if ($user->getFirstError("email") != "") 
+                echo "<div class='error'>". $user->getFirstError("email") ."</div>"; 
+        ?>
+
+        <div class="register-form-row"> 
+            <label for="date_of_birth">Date of birth</label>
+            <input type='date' name='date_of_birth' required minlength='1'>
+        </div>
+        <?php 
+            if ($user->getFirstError("date_of_birth") != "") 
+                echo "<div class='error'>". $user->getFirstError("date_of_birth") ."</div>"; 
+        ?>
+
+        <div class="register-form-row"> 
+            <label for="password">Password</label>
+            <input type='password' name='password' required minlength='8'>
+        </div>
+        <?php 
+            if ($user->getFirstError("password") != "") 
+                echo "<div class='error'>". $user->getFirstError("password") ."</div>"; 
+        ?>
+
+        <div class="register-form-row"> 
+            <label for="passwordConfirm">Confirmation</label>
+            <input type='password' name='passwordConfirm' required minlength='8'>
+        </div>
+        <?php 
+            if ($user->getFirstError("passwordConfirm") != "") 
+                echo "<div class='error'>". $user->getFirstError("passwordConfirm") ."</div>"; 
+        ?>
+        <div class="register-form-row">
+            <input type='submit'/>
+        </div>
+        <div class="register-form-row">
+            <?php
+            echo "<a href='". Application::$baseUrl ."/login'>Already have an account?</a>";
             ?>
-        </tr>
-        <tr>
-            <td>Firstname</td>
-            <td><input type='text' name='firstname'></td>
-            <?php if($user->getFirstError("firstname") != "") echo "<td>". $user->getFirstError("firstname") ."</td>" ?>
-        </tr>
-        <tr>
-            <td>Lastname</td>
-            <td><input type='text' name='lastname'></td>
-            <?php if($user->getFirstError("lastname") != "") echo "<td>". $user->getFirstError("lastname") ."</td>" ?>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input type='text' name='email' required minlength='1'></td>
-            <?php if($user->getFirstError("email") != "") echo "<td>". $user->getFirstError("email") ."</td>" ?>
-        </tr>
-        <tr>
-            <td>Date of birth</td>
-            <td><input type='date' name='date_of_birth' required minlength='1'></td>
-            <?php if($user->getFirstError("date_of_birth") != "") echo "<td>". $user->getFirstError("date_of_birth") ."</td>" ?>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type='password' name='password' required minlength='8'></td>
-            <?php if($user->getFirstError("password") != "") echo "<td>". $user->getFirstError("password") ."</td>" ?>
-        </tr>
-        <tr>
-            <td>Confirm Password</td>
-            <td><input type='password' name='passwordConfirm' required minlength='1'></td>
-            <?php if($user->getFirstError("passwordConfirm") != "") echo "<td>". $user->getFirstError("passwordConfirm") ."</td>" ?>
-        </tr>
-    </table>
-    <input type='submit'/>
-</form>
+        </div>
+    </form>
+</div>
