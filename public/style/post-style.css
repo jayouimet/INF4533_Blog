@@ -1,0 +1,10 @@
+#like {
+    background-color: lightgray;
+    height: 2vmax;
+    cursor: pointer;
+    border: 5px solid black;
+}
+
+.margin-1 {
+    margin:1vmax;
+}

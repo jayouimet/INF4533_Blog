@@ -2,11 +2,11 @@
 require_once dirname(__FILE__) . '/../../../src/Application.php';
 require dirname(__FILE__) . '/../../components/common/navbar.php';
 ?>
-<div class="row">
+<div class="row" style="height:inherit;">
     <!-- List of posts -->
     <div class="col-3 border-right">
         <div class="row">
-            <h4 class="text-center col-1" style="margin:0.5vmax;">List of posts</h4>
+            <h1 class="text-center col-1" style="margin:0.5vmax;">List of posts</h1>
         </div>
         <div class="row">
             <div class="col-3">
