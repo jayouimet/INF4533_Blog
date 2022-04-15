@@ -1,4 +1,4 @@
-.login-background {
+.register-background {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -24,16 +24,16 @@
     justify-content: center;
 }
 
-.login-form-container {
+.register-form-container {
     /*border: 1px solid #212529;*/
     border-radius: 1%;
     width: 30vw;
-    height: 50vh;
+    height: 70vh;
     background-color: #9A879D;
     box-shadow: 10px 30px 40px #212529AA;
 }
 
-.login-form {
+.register-form {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -42,22 +42,22 @@
     gap: 15px;
 }
 
-.login-form-row {
+.register-form-row {
     width: 80%;
     display: flex;
     flex-direction: row;
     align-items: normal;
 }
 
-.login-form-row > label {
+.register-form-row > label {
     width: 35%;
 }
 
-.login-form-row > input, .login-form-row > a {
+.register-form-row > input, .register-form-row > a {
     flex: 1;
 }
 
-.login-form-row > a {
+.register-form-row > a {
     text-align: center;
 }
 

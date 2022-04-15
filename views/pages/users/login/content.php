@@ -8,9 +8,7 @@ require dirname(__FILE__) . '/../../../components/common/navbar.php';
     </div>
 </div>
 <div class="content-container">
-    <div class="">
-        <?php
-        require dirname(__FILE__) . '/../../../components/forms/loginForm.php';
-        ?>
-    </div>
+    <?php
+    require dirname(__FILE__) . '/../../../components/forms/loginForm.php';
+    ?>
 </div>
